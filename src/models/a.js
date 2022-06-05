@@ -1,5 +1,5 @@
 const global = {
-  name: 'global',
+  name: 'a',
   state: {
     a: 5
   },
