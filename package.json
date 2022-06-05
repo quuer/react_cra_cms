@@ -133,5 +133,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "webpackbar": "^5.0.2"
   }
 }
