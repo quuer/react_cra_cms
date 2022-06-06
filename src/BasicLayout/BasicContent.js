@@ -1,5 +1,5 @@
 import React from 'react'
-import { Breadcrumb, Button, Layout } from 'antd'
+import { Breadcrumb, Layout } from 'antd'
 import { Route, Routes } from 'react-router'
 import { routes } from '../config/router'
 
@@ -25,14 +25,20 @@ const Component = () => {
       })
     )
   }
-  console.log(genLayout(routes))
+  const genBreadcrumb = () => {
+    return (
+      <>
+        <Breadcrumb.Item>Home</Breadcrumb.Item>
+        <Breadcrumb.Item>List</Breadcrumb.Item>
+        <Breadcrumb.Item>App</Breadcrumb.Item>
+      </>
+    )
+  }
   return (
     <Layout style={{ padding: '0 24px 24px' }}>
       <Breadcrumb style={{ margin: '16px 0' }}
       >
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
+        {genBreadcrumb()}
       </Breadcrumb>
       <Content>
         <Routes>

@@ -1,10 +1,9 @@
 import React from 'react'
-import { Route, Routes } from 'react-router'
 import {
   AppstoreAddOutlined, ClusterOutlined,
   DashboardOutlined,
-  FileExcelOutlined,
-  FilePdfOutlined,
+  FileExcelOutlined, FileJpgOutlined,
+  FilePdfOutlined, ProjectOutlined,
   TeamOutlined
 } from '@ant-design/icons'
 import DashBoard from '../pages/DashBoard'
@@ -13,6 +12,8 @@ import Permission from '../pages/Permission'
 import Pdf from '../pages/Pdf'
 import Excel from '../pages/Excel'
 import NestedRoute from '../pages/NestedRoute'
+import Image from '../pages/Image'
+import RichTextEditor from '../pages/RichTextEditor'
 
 export const routes = [
   {
@@ -41,6 +42,20 @@ export const routes = [
         name: 'EXCEL',
         component: Excel,
         icon: <FileExcelOutlined />,
+        exact: true
+      },
+      {
+        path: '/components/image',
+        name: '图片',
+        component: Image,
+        icon: <FileJpgOutlined />,
+        exact: true
+      },
+      {
+        path: '/components/ricktexteditor',
+        name: '富文本编辑',
+        component: RichTextEditor,
+        icon: <ProjectOutlined />,
         exact: true
       }
     ]

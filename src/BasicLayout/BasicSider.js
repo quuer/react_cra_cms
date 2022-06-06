@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Layout, Menu } from 'antd'
 import { useNavigate } from 'react-router'
 import { routes } from '../config/router'
+import session from '../utils/session'
 
 const { Sider } = Layout
 const Component = () => {
@@ -30,11 +31,9 @@ const Component = () => {
   }
 
   const onClick = (e) => {
-    console.log('click ', e)
     const { key, keyPath } = e
-    // 缓存点击的路由：页面刷新时仍选中刷新前的菜单
-    sessionStorage.setItem('tabKey', JSON.stringify({ key, keyPath }))
-    setActiveKey(sessionStorage.getItem('tabKey') ? JSON.parse(sessionStorage.getItem('tabKey')).keyPath : ['/dashboard'])
+    // 缓存点击的路由：页面刷新时仍选中刷新前的菜单，同时收缩所有非选中菜单
+    session.set('tabKey', { key, keyPath })
     navigate(e.key)
   }
 
@@ -43,16 +42,10 @@ const Component = () => {
       <Menu
         onClick={onClick}
         style={{ height: '100%' }}
-        selectedKeys={sessionStorage.getItem('tabKey') ? JSON.parse(sessionStorage.getItem('tabKey')).keyPath : []
-        }
-        defaultOpenKeys={
-          sessionStorage.getItem('tabKey') ? JSON.parse(sessionStorage.getItem('tabKey')).keyPath : ['/dashboard']
-        }
+        selectedKeys={session.get('tabKey')?.keyPath ?? ['/dashboard']}
+        defaultOpenKeys={session.get('tabKey')?.keyPath}
         mode="inline"
         items={genSiderMenuItems(routes)}
-        onOpenChange={(e) => {
-          console.log(e, '◀◀◀e')
-        }}
       />
     </Sider>
   )
