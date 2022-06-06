@@ -16,6 +16,7 @@ const Component = () => {
           return (
             <Route
               path={route.path}
+              exact={route.exact}
               element={<route.component />}
               // element={connect((state) => state[NAME], dispatch => ({ dispatch }))(route.component)}
               key={route.path} />
