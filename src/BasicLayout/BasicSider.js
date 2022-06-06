@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Layout, Menu } from 'antd'
-import { useNavigate } from 'react-router'
+import { useNavigate, useLocation } from 'react-router'
 import { routes } from '../config/router'
 import session from '../utils/session'
 
@@ -8,6 +8,10 @@ const { Sider } = Layout
 
 const Component = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const { pathname } = location
+  const [keyPath, setKeyPath] = useState([])
+  console.log(pathname, '◀◀◀pathname')
   const genSiderMenuItems = routes => {
     return (
       routes.filter(route => route.isMenu === undefined).map(route => {
@@ -36,14 +40,29 @@ const Component = () => {
     session.set('tabKey', { key, keyPath })
     navigate(e.key)
   }
+  useEffect(() => {
+    const temKeyPathList = []
+    const genKeyPath = (routes) => {
+      const matchRoute = routes.find(route => {
+        return pathname.includes(route.path)
+      })
+      temKeyPathList.unshift(matchRoute.path)
+      if (matchRoute?.children) {
+        genKeyPath(matchRoute.children)
+      }
+    }
+    genKeyPath(routes)
+    console.log(temKeyPathList, '◀◀◀temKeyPathList')
+    setKeyPath(temKeyPathList)
+  }, [pathname])
 
   return (
     <Sider>
       <Menu
         onClick={onClick}
         style={{ height: '100%' }}
-        selectedKeys={session.get('tabKey')?.keyPath ?? ['/dashboard']}
-        defaultOpenKeys={session.get('tabKey')?.keyPath}
+        selectedKeys={keyPath.length > 0 ? keyPath : session.get('tabKey')?.keyPath}
+        defaultOpenKeys={keyPath.length > 0 ? keyPath : session.get('tabKey')?.keyPath}
         mode="inline"
         items={genSiderMenuItems(routes)}
       />

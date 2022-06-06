@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+</body>
+<script>
+  const routes = [
+    {
+      path: '/dashboard',
+      name: '首页',
+      component: 'DashBoard',
+      exact: true
+    },
+    {
+      path: '/components',
+      name: '组件',
+      component: 'Components',
+      exact: true,
+      children: [
+        {
+          path: '/components/pdf',
+          name: 'PDF',
+          component: 'Pdf',
+          exact: true
+        },
+        {
+          path: '/components/excel',
+          name: 'EXCEL',
+          component: 'Excel',
+          exact: true
+        },
+        {
+          path: '/components/image',
+          name: '图片',
+          component: Image,
+          exact: true
+        },
+        {
+          path: '/components/richtexteditor',
+          name: '富文本编辑',
+          component: 'RichTextEditor',
+          exact: true
+        }
+      ]
+    },
+    {
+      path: '/permission',
+      name: '权限',
+      component: 'Permission',
+      exact: true
+    },
+    {
+      path: '/nestedroute',
+      name: '嵌套路由',
+      children: [
+        {
+          path: '/nestedroute/route_1',
+          name: '1',
+          component: 'NestedRoute',
+          exact: true,
+          children: [
+            {
+              path: '/nestedroute/route_1/route_1_1',
+              name: '1-1',
+              component: 'NestedRoute',
+              exact: true,
+              children: [
+                {
+                  path: '/nestedroute/route_1/route_1_1/route_1_1_1',
+                  name: '1-1-1',
+                  component: 'NestedRoute',
+                  exact: true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          path: '/nestedroute/route_2',
+          name: '2',
+          component: 'NestedRoute',
+          exact: true,
+          children: [
+            {
+              path: '/nestedroute/route_2/route_2_2',
+              name: '2-1',
+              component: 'NestedRoute',
+              exact: true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: '/echart',
+      name: '图表',
+      component: 'Echart',
+      exact: true
+    },
+    {
+      path: '/login',
+      name: '登录',
+      component: 'Login',
+      exact: true,
+      isMenu: false
+    },
+    {
+      path: '*',
+      name: '404',
+      component: 'Login',
+      exact: true,
+      isMenu: false
+    }
+  ]
+  
+  const genLayout = routes => {
+    return (
+      routes.map(route => {
+        if (route.children?.length > 0) {
+          return genLayout(route.children)
+        }
+        else {
+          return (
+            {
+              path: route.path,
+              exact: route.exact,
+              element: route.component,
+              key: route.path
+            })
+        }
+      })
+    )
+  }
+  console.log(genLayout(routes))
+</script>
+</html>

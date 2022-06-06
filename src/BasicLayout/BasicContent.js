@@ -56,7 +56,7 @@ const Component = () => {
       <Content>
         <Routes>
           {genLayout(routes)}
-          <Route path='*' element={<Navigate to='/404' />} />
+          <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
       </Content>
     </Layout>
