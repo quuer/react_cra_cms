@@ -1,19 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BasicSider from './BasicSider'
 import BasicContent from './BasicContent'
 import BasicHeader from './BasicHeader'
 import { Layout } from 'antd'
+import session from '../utils/session'
+import { Route, Routes } from 'react-router'
+import { Navigate } from 'react-router-dom'
+import Login from '../pages/Login'
+import { connect } from 'react-redux'
 
-const Component = () => {
+const Component = (props) => {
+  const { token } = props
+  console.log(props, '◀◀◀props')
+  const isLogin = token || session.getToken()
   return (
-    <Layout>
-      <BasicHeader></BasicHeader>
-      <Layout style={{ height: 'calc(100vh - 64px' }}>
-        <BasicSider></BasicSider>
-        <BasicContent></BasicContent>
-      </Layout>
-    </Layout>
+    <>
+      {!isLogin ?
+        <Routes>
+          <Route path="*" element={<Login />} />
+        </Routes>
+        :
+        <Layout>
+          <BasicHeader />
+          <Layout style={{ height: 'calc(100vh - 64px' }}>
+            <BasicSider />
+            <BasicContent />
+          </Layout>
+        </Layout>}
+    </>
   )
 }
 
-export default Component
+const mapState = ({ login }) => login
+
+export default connect(mapState)(Component)

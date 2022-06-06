@@ -3,7 +3,7 @@ import {
   AppstoreAddOutlined, ClusterOutlined,
   DashboardOutlined,
   FileExcelOutlined, FileJpgOutlined,
-  FilePdfOutlined, ProjectOutlined,
+  FilePdfOutlined, LineChartOutlined, ProjectOutlined,
   TeamOutlined
 } from '@ant-design/icons'
 import DashBoard from '../pages/DashBoard'
@@ -14,6 +14,9 @@ import Excel from '../pages/Excel'
 import NestedRoute from '../pages/NestedRoute'
 import Image from '../pages/Image'
 import RichTextEditor from '../pages/RichTextEditor'
+import Echart from '../pages/Echart'
+import Login from '../pages/Login'
+import NotFound from '../pages/NotFound'
 
 export const routes = [
   {
@@ -52,7 +55,7 @@ export const routes = [
         exact: true
       },
       {
-        path: '/components/ricktexteditor',
+        path: '/components/richtexteditor',
         name: '富文本编辑',
         component: RichTextEditor,
         icon: <ProjectOutlined />,
@@ -114,6 +117,27 @@ export const routes = [
         ]
       }
     ]
+  },
+  {
+    path: '/echart',
+    name: '图表',
+    component: Echart,
+    icon: <LineChartOutlined />,
+    exact: true
+  },
+  {
+    path: '/login',
+    name: '登录',
+    component: Login,
+    exact: true,
+    isMenu: false
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: NotFound,
+    exact: true,
+    isMenu: false
   }
 ]
 

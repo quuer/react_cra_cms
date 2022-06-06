@@ -5,12 +5,12 @@ import { routes } from '../config/router'
 import session from '../utils/session'
 
 const { Sider } = Layout
+
 const Component = () => {
-  const [activeKey, setActiveKey] = useState(['/dashboard'])
   const navigate = useNavigate()
   const genSiderMenuItems = routes => {
     return (
-      routes.map(route => {
+      routes.filter(route => route.isMenu === undefined).map(route => {
         if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单
           return {
             label: route.name,
