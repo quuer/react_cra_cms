@@ -3,6 +3,7 @@ import BasicSider from './BasicSider'
 import BasicContent from './BasicContent'
 import BasicHeader from './BasicHeader'
 import { Layout } from 'antd'
+import { Routes } from 'react-router'
 
 const Component = () => {
   return (
