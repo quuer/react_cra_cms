@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 const { Sider } = Layout
 
 const Component = (props) => {
-  const { collapsed } = props
+  const { dispatch, collapsed, theme } = props
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const [keyPath, setKeyPath] = useState([])
@@ -18,12 +18,17 @@ const Component = (props) => {
     return (routes.filter(route => route.isMenu === undefined).map(route => {
       if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单，生成时排除没有isMenu的对象
         return {
-          label: route.name, key: route.path, icon: route.icon, children: genSiderMenu(route.children)
+          label: route.name,
+          key: route.path,
+          icon: route.icon,
+          children: genSiderMenu(route.children)
         }
       }
       else { // 2. 无子路由
         return {
-          label: route.name, key: route.path, icon: route.icon
+          label: route.name,
+          key: route.path,
+          icon: route.icon
         }
       }
     }))
@@ -32,6 +37,16 @@ const Component = (props) => {
   const onClick = (e) => {
     // 缓存点击的路由：页面刷新时仍选中刷新前的菜单，同时收缩所有非选中菜单
     session.set('tabKey', { keyPath: e.keyPath })
+    dispatch({
+      type: 'global/renderNavTags',
+      payload: {
+        tagName: e.domEvent.target.innerText, tagPath: e.key
+      }
+    })
+    dispatch({
+      type: 'global/setState',
+      payload: { currentTabKey: [e.domEvent.target.innerText, e.key] }
+    })
     navigate(e.key)
   }
 
@@ -65,8 +80,7 @@ const Component = (props) => {
       collapsible
       collapsed={collapsed}>
       <Menu
-        // 主题
-        theme="light"
+        theme={theme}
         style={{ height: '100%' }}
         onClick={onClick}
         mode="inline"

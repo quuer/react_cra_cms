@@ -10,7 +10,7 @@ const Component = () => {
   const params = useParams()
   console.log(location, params, '◀◀◀location')
   const onRouterPush = () => {
-    navigate('/echart')
+    navigate('/echart/6')
   }
   return (<div>
     <Button onClick={onRouterPush}>跳转</Button>

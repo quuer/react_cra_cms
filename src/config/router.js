@@ -108,7 +108,7 @@ export const routes = [
     ]
   },
   {
-    path: '/echart',
+    path: '/echart/:id',
     name: '图表',
     component: Echart,
     icon: <LineChartOutlined />

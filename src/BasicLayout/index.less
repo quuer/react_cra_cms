@@ -2,7 +2,6 @@
   height: 100vh;
   
   .header {
-    background-color: #FFF;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,6 +11,16 @@
       align-items: center;
     }
     
+    .header_right {
+      display: flex;
+      align-items: center;
+      
+      .theme {
+        cursor: pointer;
+        margin: 20px 20px 0 0;
+      }
+    }
+    
     .collapse_icon {
       cursor: pointer;
     }
@@ -19,6 +28,16 @@
     .breadcrumb {
       margin-left: 20px;
     }
+  }
+  
+  .theme_dark {
+    background-color: #001529FF !important;
+    color: #FFF !important;
+  }
+  
+  .theme_light {
+    background-color: #FFF !important;
+    color: #001529FF !important;
   }
 }
 

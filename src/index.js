@@ -11,6 +11,7 @@ import moment from 'moment'
 import 'moment/locale/zh-cn'
 import 'antd/dist/antd.min.css'
 import './assets/common.less'
+import '@icon-park/react/styles/index.less'
 
 moment.locale('zh-cn')
 

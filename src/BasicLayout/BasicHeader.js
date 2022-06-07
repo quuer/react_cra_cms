@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { Avatar, Breadcrumb, Dropdown, Layout, Menu, Space } from 'antd'
 import { connect } from 'react-redux'
+
 import {
   CloseSquareOutlined,
-  DownOutlined, GithubOutlined,
+  DownOutlined, GithubOutlined, HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  SmileOutlined,
+  SmileOutlined, StarFilled, StarOutlined,
   UserAddOutlined
 } from '@ant-design/icons'
 import { routes } from '../config/router'
 import { useLocation, useNavigate } from 'react-router'
 import styles from './index.less'
 import AVATAR from '../assets/image/avatar1.gif'
+import { Brightness, DarkMode, IntermediateMode, Moon } from '@icon-park/react'
+import classnames from 'classnames'
 
 const { Header } = Layout
 
 const Component = (props) => {
-  const { dispatch, collapsed } = props
+  const { dispatch, collapsed, theme } = props
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const [BreadcrumbList, setBreadcrumbList] = useState([])
-
   const menu = (
     <Menu
       items={[
@@ -53,7 +55,6 @@ const Component = (props) => {
   *  面包屑会逐层显示左侧导航菜单的层级，用 / 隔开
   *  */
   useEffect(() => {
-    console.log(pathname, '◀◀◀pathname')
     const temBreadcrumbList = []
     const genBreadcrumb = (routes) => {
       const matchRoute = routes.find(route => {
@@ -72,7 +73,7 @@ const Component = (props) => {
 
   return (
     <>
-      <Header className={styles.header}>
+      <Header className={classnames(theme === 'light' ? styles.theme_light : styles.theme_dark, styles.header)}>
         <div className={styles.header_left}>
           <div className={styles.collapse_icon} onClick={() => {
             dispatch({ type: 'global/setState', payload: { collapsed: !collapsed } })
@@ -82,15 +83,39 @@ const Component = (props) => {
           <div className={styles.breadcrumb}>
             {/*面包屑导航条：404页面不需要显示面包屑*/}
             {pathname !== '/404' && BreadcrumbList.length &&
-              <Breadcrumb style={{ margin: '16px 0' }}>
+              <Breadcrumb
+                separator={theme === 'light' ? <span className={styles.theme_light}>/</span> :
+                  <span className={styles.theme_dark}>/</span>}
+                style={{ margin: '16px 0' }}
+              >
+                <Breadcrumb.Item
+                  onClick={() => {
+                    navigate('/dashboard')
+                  }}
+                  className={theme === 'light' ? styles.theme_light : styles.theme_dark}
+                  style={{ cursor: 'pointer' }}>
+                  <HomeOutlined />
+                </Breadcrumb.Item>
                 {BreadcrumbList.map(item => {
-                  return (<Breadcrumb.Item key={item}>{item}</Breadcrumb.Item>)
+                  return (
+                    <Breadcrumb.Item key={item} className={theme === 'light' ? styles.theme_light : styles.theme_dark}
+                    >
+                      {item}
+                    </Breadcrumb.Item>
+                  )
                 })}
               </Breadcrumb>
             }
           </div>
         </div>
         <div className={styles.header_right}>
+          <div className={styles.theme} onClick={() => {
+            dispatch({ type: 'global/setState', payload: { theme: theme === 'light' ? 'dark' : 'light' } })
+          }}>
+            {theme === 'light' ?
+              <IntermediateMode theme="filled" size="30" fill="#001529" /> :
+              <IntermediateMode theme="outline" size="30" fill="#ffffff" />}
+          </div>
           <div className={styles.personal}>
             <Dropdown
               arrow={{ pointAtCenter: true }}
@@ -106,8 +131,6 @@ const Component = (props) => {
     </>
   )
 }
-
 const mapState = ({ global }) => global
 const mapDispatch = dispatch => ({ dispatch })
-
 export default connect(mapState, mapDispatch)(Component)
