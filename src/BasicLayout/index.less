@@ -1,3 +1,29 @@
-.header {
-  color: #FFF;
+.layout {
+  height: 100vh;
+  
+  .header {
+    background-color: #FFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .header_left {
+      display: flex;
+      align-items: center;
+    }
+    
+    .collapse_icon {
+      cursor: pointer;
+    }
+    
+    .breadcrumb {
+      margin-left: 20px;
+    }
+  }
+}
+
+:global {
+  .ant-layout-header {
+    padding: 0 20px !important;
+  }
 }

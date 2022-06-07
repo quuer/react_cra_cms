@@ -3,10 +3,13 @@ import { useNavigate, useLocation } from 'react-router'
 import { Layout, Menu } from 'antd'
 import { routes } from '../config/router'
 import session from '../utils/session'
+import styles from './index.less'
+import { connect } from 'react-redux'
 
 const { Sider } = Layout
 
-const Component = () => {
+const Component = (props) => {
+  const { collapsed } = props
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const [keyPath, setKeyPath] = useState([])
@@ -56,20 +59,28 @@ const Component = () => {
     setKeyPath(temKeyPathList)
   }, [pathname])
 
-  return (<Sider>
-    <Menu
-      // 主题
-      theme="dark"
-      style={{ height: '100%' }}
-      onClick={onClick}
-      mode="inline"
-      items={genSiderMenu(routes)}
-      // 选中高亮项：刷新会导致keyPath清空，故保存在sessionStorage中
-      selectedKeys={keyPath.length > 0 ? keyPath : session.get('tabKey')?.keyPath}
-      // 展开项：也可用openKeys，但需要根据onSelect实时修改openKeys的值，否则展开不了
-      defaultOpenKeys={keyPath.length > 0 ? keyPath : session.get('tabKey')?.keyPath}
-    />
-  </Sider>)
+  return (
+    <Sider
+      trigger={null}
+      collapsible
+      collapsed={collapsed}>
+      <Menu
+        // 主题
+        theme="light"
+        style={{ height: '100%' }}
+        onClick={onClick}
+        mode="inline"
+        items={genSiderMenu(routes)}
+        // 选中高亮项：刷新会导致keyPath清空，故保存在sessionStorage中
+        selectedKeys={keyPath.length > 0 ? keyPath : session.get('tabKey')?.keyPath}
+        // 展开项：也可用openKeys，但需要根据onSelect实时修改openKeys的值，否则展开不了
+        defaultOpenKeys={keyPath.length > 0 ? keyPath : session.get('tabKey')?.keyPath}
+      />
+    </Sider>
+  )
 }
 
-export default Component
+const mapState = ({ global }) => global
+const mapDispatch = dispatch => ({ dispatch })
+
+export default connect(mapState, mapDispatch)(Component)

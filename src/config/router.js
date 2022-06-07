@@ -17,6 +17,7 @@ import RichTextEditor from '../pages/RichTextEditor'
 import Echart from '../pages/Echart'
 import Login from '../pages/Login'
 import NotFound from '../pages/NotFound'
+import Personal from '../pages/Personal'
 
 export const routes = [
   {
@@ -116,6 +117,12 @@ export const routes = [
     path: '/404',
     name: '404',
     component: NotFound,
+    isMenu: false
+  },
+  {
+    path: '/personal',
+    name: '个人页面',
+    component: Personal,
     isMenu: false
   }
 ]
