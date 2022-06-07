@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import BasicSider from './BasicSider'
 import BasicContent from './BasicContent'
 import BasicHeader from './BasicHeader'
 import { Layout } from 'antd'
-import session from '../utils/session'
 import { Route, Routes } from 'react-router'
-import { Navigate } from 'react-router-dom'
 import Login from '../pages/Login'
 import { connect } from 'react-redux'
+import RouterGuard from './routerGuard'
 
 const Component = (props) => {
-  const { token } = props
-  console.log(props, '◀◀◀props')
-  const isLogin = token || session.getToken()
+
+  // 需要登录才可显示
+  const PrivatePage = () => {
+    return (
+      <Layout>
+        <BasicHeader />
+        <Layout style={{ height: 'calc(100vh - 64px' }}>
+          <BasicSider />
+          <BasicContent />
+        </Layout>
+      </Layout>
+    )
+  }
   return (
-    <>
-      {!isLogin ?
-        <Routes>
-          <Route path="*" element={<Login />} />
-        </Routes>
-        :
-        <Layout>
-          <BasicHeader />
-          <Layout style={{ height: 'calc(100vh - 64px' }}>
-            <BasicSider />
-            <BasicContent />
-          </Layout>
-        </Layout>}
-    </>
+    <Routes>
+      <Route path="*" element={<RouterGuard> <PrivatePage /> </RouterGuard>} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+
   )
 }
 

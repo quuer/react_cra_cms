@@ -23,43 +23,37 @@ export const routes = [
     path: '/dashboard',
     name: '首页',
     component: DashBoard,
-    icon: <DashboardOutlined />,
-    exact: true
+    icon: <DashboardOutlined />
   },
   {
     path: '/components',
     name: '组件',
     component: Components,
     icon: <AppstoreAddOutlined />,
-    exact: true,
     children: [
       {
         path: '/components/pdf',
         name: 'PDF',
         component: Pdf,
-        icon: <FilePdfOutlined />,
-        exact: true
+        icon: <FilePdfOutlined />
       },
       {
         path: '/components/excel',
         name: 'EXCEL',
         component: Excel,
-        icon: <FileExcelOutlined />,
-        exact: true
+        icon: <FileExcelOutlined />
       },
       {
         path: '/components/image',
         name: '图片',
         component: Image,
-        icon: <FileJpgOutlined />,
-        exact: true
+        icon: <FileJpgOutlined />
       },
       {
         path: '/components/richtexteditor',
         name: '富文本编辑',
         component: RichTextEditor,
-        icon: <ProjectOutlined />,
-        exact: true
+        icon: <ProjectOutlined />
       }
     ]
   },
@@ -67,8 +61,7 @@ export const routes = [
     path: '/permission',
     name: '权限',
     component: Permission,
-    icon: <TeamOutlined />,
-    exact: true
+    icon: <TeamOutlined />
   },
   {
     path: '/nestedroute',
@@ -80,21 +73,18 @@ export const routes = [
         name: '1',
         component: NestedRoute,
         icon: <FilePdfOutlined />,
-        exact: true,
         children: [
           {
             path: '/nestedroute/route_1/route_1_1',
             name: '1-1',
             component: NestedRoute,
             icon: <FilePdfOutlined />,
-            exact: true,
             children: [
               {
                 path: '/nestedroute/route_1/route_1_1/route_1_1_1',
                 name: '1-1-1',
                 component: NestedRoute,
-                icon: <FilePdfOutlined />,
-                exact: true
+                icon: <FilePdfOutlined />
               }
             ]
           }
@@ -105,14 +95,12 @@ export const routes = [
         name: '2',
         component: NestedRoute,
         icon: <FilePdfOutlined />,
-        exact: true,
         children: [
           {
             path: '/nestedroute/route_2/route_2_2',
             name: '2-1',
             component: NestedRoute,
-            icon: <FilePdfOutlined />,
-            exact: true
+            icon: <FilePdfOutlined />
           }
         ]
       }
@@ -122,21 +110,12 @@ export const routes = [
     path: '/echart',
     name: '图表',
     component: Echart,
-    icon: <LineChartOutlined />,
-    exact: true
-  },
-  {
-    path: '/login',
-    name: '登录',
-    component: Login,
-    exact: true,
-    isMenu: false
+    icon: <LineChartOutlined />
   },
   {
     path: '/404',
     name: '404',
     component: NotFound,
-    exact: true,
     isMenu: false
   }
 ]
