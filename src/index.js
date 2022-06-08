@@ -10,9 +10,10 @@ import zhCN from 'antd/lib/locale/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 // import 'antd/dist/antd.min.css'
+// 若要修改antd主题，需要引入下方的css
 import 'antd/dist/antd.variable.min.css'
 
-import './assets/common.less'
+import './assets/css/reset.less'
 import '@icon-park/react/styles/index.less'
 
 moment.locale('zh-cn')

@@ -30,11 +30,20 @@
     }
   }
   
-  .tags {
-    width: 100%;
-    box-shadow: 0 2px 17px -12px;
-    padding: 3px;
-    margin-top: 3px;
+  .layout {
+    height: calc(100vh - 64px);
+    overflow-y: scroll;
+    
+    .tags {
+      width: 100%;
+      box-shadow: 0 1px 17px -13px;
+      padding: 5px 10px 5px 15px;
+      background-color: rgb(242, 242, 242);
+    }
+    
+    .content {
+      padding: 15px;
+    }
   }
   
   .theme_dark {

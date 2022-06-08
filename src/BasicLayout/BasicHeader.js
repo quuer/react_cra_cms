@@ -16,6 +16,7 @@ import styles from './index.less'
 import AVATAR from '../assets/image/avatar1.gif'
 import { Brightness, DarkMode, IntermediateMode, Moon } from '@icon-park/react'
 import classnames from 'classnames'
+import session from '../utils/session'
 
 const { Header } = Layout
 
@@ -42,34 +43,14 @@ const Component = (props) => {
           key: 'logout',
           danger: true,
           label: (<a onClick={() => {
-            console.log('log out', '◀◀◀"log out"')
+            session.clear()
+            navigate('/login')
           }}>退出</a>),
           icon: <CloseSquareOutlined />
         }
       ]}
     />
   )
-
-  /* 动态关联 左侧导航菜单 与 面包屑：本质还是路由URL关联面包屑
-  *  面包屑会逐层显示左侧导航菜单的层级，用 / 隔开
-  *  */
-  // useEffect(() => {
-  //   const keyPathArr = []
-  //   const temBreadcrumbList = []
-  //   const genBreadcrumb = (routes) => {
-  //     const matchRoute = routes.find(route => {
-  //       return pathname.includes(route.path)
-  //     })
-  //     if (!matchRoute) return
-  //     temBreadcrumbList.push([matchRoute.path, matchRoute.name])
-  //     if (matchRoute?.children) {
-  //       genBreadcrumb(matchRoute.children)
-  //     }
-  //   }
-  //   genBreadcrumb(routes)
-  //   console.log(temBreadcrumbList, '◀◀◀temBreadcrumbList')
-  //   setBreadcrumbList(temBreadcrumbList)
-  // }, [pathname])
 
   return (
     <>
@@ -96,7 +77,7 @@ const Component = (props) => {
                   style={{ cursor: 'pointer' }}>
                   <HomeOutlined />
                 </Breadcrumb.Item>
-                {curKeyPath.labels.reverse().map(item => {
+                {[...curKeyPath.labels].reverse().map(item => {
                   return (
                     <Breadcrumb.Item key={item} className={theme === 'light' ? styles.theme_light : styles.theme_dark}
                     >

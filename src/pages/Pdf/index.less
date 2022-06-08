@@ -1,0 +1,35 @@
+.container_pdf {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  
+  .left, .right {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+    .content {
+      padding: 15px 0;
+    }
+  }
+  
+  .right {
+    width: 40%;
+  }
+  
+  p {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  :global {
+    .react-pdf__Page__canvas {
+      margin: 0 auto;
+    }
+    
+    .react-pdf__message {
+      display: none
+    }
+  }
+}
