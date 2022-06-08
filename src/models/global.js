@@ -1,10 +1,14 @@
 const global = {
   name: 'global',
   state: {
-    theme: 'light',
-    collapsed: false,
-    tags: [['首页', '/dashboard']], // 结构为[[tagName,tagPath],[同左边]]，用Map或对象数组[{tagName,tagPath},{}]均可
-    currentTabKey: [] // 保存当前选中的菜单项，[tagName,tagPath]
+    theme: 'light', // 默认light主题
+    collapsed: false, // 默认展开左侧导航菜单
+    curKeyPath: { // 保存当前亮高的左侧导航菜单 {labels:[],paths:[]}
+      // labels: ['首页'],
+      // paths: ['/dashboard']
+    },
+    tags: [['/dashboard', '首页']], // 结构为[[tagPath,tagName],[同左边]]，用Map或对象数组[{tagName,tagPath},{}]均可
+    expandKeyPath: [] // 左侧展开菜单path
   },
   reducers: {
     setState(state, newState) {
@@ -13,18 +17,17 @@ const global = {
   },
   effects: (dispatch) => ({
     renderNavTags(payload, { global }) {
-      const { tagName, tagPath } = payload
+      const { tagPath, tagLabel } = payload
       const { tags } = global
       const tagsMap = new Map(tags)
-      tagsMap.set(tagName, tagPath) // Map会保证key的唯一性
+      tagsMap.set(tagPath, tagLabel) // Map会保证key的唯一性
       dispatch({ type: 'global/setState', payload: { tags: [...tagsMap] } })
     },
     removeNavTag(payload, { global }) {
-      const { item: [tagName], callback } = payload
+      const { item: [tagPath], callback } = payload
       const { tags } = global
       const tagsMap = new Map(tags)
-      console.log(tagName, '◀◀◀tagName')
-      tagsMap.delete(tagName)
+      tagsMap.delete(tagPath)
       dispatch({ type: 'global/setState', payload: { tags: [...tagsMap] } })
       callback && callback([...tagsMap])
     }

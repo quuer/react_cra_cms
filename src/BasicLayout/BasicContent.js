@@ -6,7 +6,7 @@ import styles from './index.less'
 import { connect } from 'react-redux'
 
 const Component = (props) => {
-  const { dispatch, currentTabKey, tags } = props
+  const { dispatch, tags, curKeyPath, expandKeyPath } = props
   const navigate = useNavigate()
   const genLayout = routes => {
     return (
@@ -32,49 +32,35 @@ const Component = (props) => {
     <Layout style={{ padding: '5px 15px' }}>
       <div className={styles.tags}>
         {tags.map(item => {
-          if (item[1] === '/dashboard') {
-            return <Tag
-              key="dashboard"
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                navigate(item[1])
-                dispatch({ type: 'global/setState', payload: { currentTabKey: item } })
-              }}
-              color={item[1] === currentTabKey[1] ? '#108EE9' : null}>{item[0]}</Tag>
-          }
           return (
             <Tag
-              color={item[1] === currentTabKey[1] ? '#108EE9' : null}
+              color={item[0] === curKeyPath?.paths?.[0] ? '#108EE9' : null}
               onClose={() => {
-                dispatch({
-                  type: 'global/removeNavTag', payload: {
-                    item,
-                    callback: (newTags) => {
-                      console.log(newTags, '◀◀◀tags')
-                      // 若删除的为高亮tag，则删除后高亮最后一个tag，否则仅删除
-                      if (item[0] === currentTabKey[0]) {
-                        // 删除至仅剩余1个tag
-                        if (newTags.length > 0) {
-                          navigate(newTags.at(-1)[1])
-                          dispatch({ type: 'global/setState', payload: { currentTabKey: newTags.at(-1) } })
-                          return
-                        }
-                        navigate('/dashboard')
-                        dispatch({ type: 'global/setState', payload: { currentTabKey: ['首页', '/dashboard'] } })
-
+                if (tags.length > 1) {
+                  dispatch({
+                    type: 'global/removeNavTag', payload: {
+                      item,
+                      callback: (newTags) => {
+                        console.log(newTags, '◀◀◀newTags')
+                        navigate(newTags.at(-1)[0])
                       }
                     }
-                  }
-                })
+                  })
+                }
+                else {
+                  navigate('/dashboard')
+                }
               }}
               style={{ cursor: 'pointer' }}
-              closable
+              closable={item[0] !== '/dashboard'} // 首页 不能有删除功能
               key={item[1]}
               onClick={() => {
-                navigate(item[1])
-                dispatch({ type: 'global/setState', payload: { currentTabKey: item } })
+                navigate(item[0])
+                const temExpandKeyPath = [...expandKeyPath, ...curKeyPath.paths]
+                console.log([...new Set(temExpandKeyPath)], '◀◀◀[...new Set(temExpandKeyPath)]')
+                dispatch({ type: 'global/setState', payload: { expandKeyPath: [...new Set(temExpandKeyPath)] } })
               }}
-            >{item[0]}</Tag>
+            >{item[1]}</Tag>
           )
         })}
       </div>

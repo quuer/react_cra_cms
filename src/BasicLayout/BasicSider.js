@@ -9,11 +9,10 @@ import { connect } from 'react-redux'
 const { Sider } = Layout
 
 const Component = (props) => {
-  const { dispatch, collapsed, theme } = props
+  const { dispatch, collapsed, theme, curKeyPath, expandKeyPath } = props
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const [keyPath, setKeyPath] = useState([])
-
+  // const [path, setPath] = useState([]) // 保证能展开任意嵌套菜单
   const genSiderMenu = routes => {
     return (routes.filter(route => route.isMenu === undefined).map(route => {
       if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单，生成时排除没有isMenu的对象
@@ -35,18 +34,17 @@ const Component = (props) => {
   }
 
   const onClick = (e) => {
-    // 缓存点击的路由：页面刷新时仍选中刷新前的菜单，同时收缩所有非选中菜单
-    session.set('tabKey', { keyPath: e.keyPath })
     dispatch({
       type: 'global/renderNavTags',
       payload: {
-        tagName: e.domEvent.target.innerText, tagPath: e.key
+        tagPath: e.key,
+        tagLabel: e.domEvent.target.innerText
       }
     })
-    dispatch({
-      type: 'global/setState',
-      payload: { currentTabKey: [e.domEvent.target.innerText, e.key] }
-    })
+    // dispatch({
+    //   type: 'global/setState',
+    //   payload: { currentTabKey: [e.domEvent.target.innerText, e.key] }
+    // })
     navigate(e.key)
   }
 
@@ -57,21 +55,33 @@ const Component = (props) => {
 *   2.2 取消左侧菜单高亮
 * */
   useEffect(() => {
-    const temKeyPathList = []
+    const temPaths = []
+    const temLabels = []
+    let curKeyPath = {}
     const genKeyPath = (routes) => {
       const matchRoute = routes.find(route => {
         return pathname.includes(route.path)
       })
       if (!matchRoute) return
-      temKeyPathList.unshift(matchRoute.path)
+      temPaths.unshift(matchRoute.path)
+      temLabels.unshift(matchRoute.name)
+      curKeyPath = {
+        labels: temLabels,
+        paths: temPaths
+      }
       if (matchRoute?.children) {
         genKeyPath(matchRoute.children)
       }
     }
     genKeyPath(routes)
-    console.log(temKeyPathList, '◀◀◀temKeyPathList')
-    session.set('tabKey', { keyPath: temKeyPathList })
-    setKeyPath(temKeyPathList)
+    console.log(curKeyPath, '◀◀◀curKeyPath')
+    dispatch({ type: 'global/setState', payload: { curKeyPath } })
+    dispatch({
+      type: 'global/renderNavTags', payload: {
+        tagPath: temPaths[0],
+        tagLabel: temLabels[0]
+      }
+    })
   }, [pathname])
 
   return (
@@ -85,10 +95,13 @@ const Component = (props) => {
         onClick={onClick}
         mode="inline"
         items={genSiderMenu(routes)}
-        // 选中高亮项：刷新会导致keyPath清空，故保存在sessionStorage中
-        selectedKeys={keyPath.length > 0 ? keyPath : session.get('tabKey')?.keyPath}
-        // 展开项：也可用openKeys，但需要根据onSelect实时修改openKeys的值，否则展开不了
-        defaultOpenKeys={keyPath.length > 0 ? keyPath : session.get('tabKey')?.keyPath}
+        selectedKeys={curKeyPath.paths}
+        openKeys={expandKeyPath?.length > 0 ? expandKeyPath : curKeyPath.paths}
+        // TODO：ANTD-MENU 4.20 疑似bug：opOpenChange的值与展开收起的submenu不匹配
+        onOpenChange={(e) => {
+          console.log(e, '◀◀◀展开')
+          dispatch({ type: 'global/setState', payload: { expandKeyPath: e } })
+        }}
       />
     </Sider>
   )

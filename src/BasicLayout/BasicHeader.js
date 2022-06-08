@@ -20,10 +20,9 @@ import classnames from 'classnames'
 const { Header } = Layout
 
 const Component = (props) => {
-  const { dispatch, collapsed, theme } = props
+  const { dispatch, collapsed, theme, curKeyPath } = props
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const [BreadcrumbList, setBreadcrumbList] = useState([])
   const menu = (
     <Menu
       items={[
@@ -54,22 +53,23 @@ const Component = (props) => {
   /* 动态关联 左侧导航菜单 与 面包屑：本质还是路由URL关联面包屑
   *  面包屑会逐层显示左侧导航菜单的层级，用 / 隔开
   *  */
-  useEffect(() => {
-    const temBreadcrumbList = []
-    const genBreadcrumb = (routes) => {
-      const matchRoute = routes.find(route => {
-        return pathname.includes(route.path)
-      })
-      if (!matchRoute) return
-      temBreadcrumbList.push(matchRoute.name)
-      if (matchRoute?.children) {
-        genBreadcrumb(matchRoute.children)
-      }
-    }
-    genBreadcrumb(routes)
-    console.log(temBreadcrumbList, '◀◀◀temBreadcrumbList')
-    setBreadcrumbList(temBreadcrumbList)
-  }, [pathname])
+  // useEffect(() => {
+  //   const keyPathArr = []
+  //   const temBreadcrumbList = []
+  //   const genBreadcrumb = (routes) => {
+  //     const matchRoute = routes.find(route => {
+  //       return pathname.includes(route.path)
+  //     })
+  //     if (!matchRoute) return
+  //     temBreadcrumbList.push([matchRoute.path, matchRoute.name])
+  //     if (matchRoute?.children) {
+  //       genBreadcrumb(matchRoute.children)
+  //     }
+  //   }
+  //   genBreadcrumb(routes)
+  //   console.log(temBreadcrumbList, '◀◀◀temBreadcrumbList')
+  //   setBreadcrumbList(temBreadcrumbList)
+  // }, [pathname])
 
   return (
     <>
@@ -82,7 +82,7 @@ const Component = (props) => {
           </div>
           <div className={styles.breadcrumb}>
             {/*面包屑导航条：404页面不需要显示面包屑*/}
-            {pathname !== '/404' && BreadcrumbList.length &&
+            {pathname !== '/404' && curKeyPath?.labels?.length &&
               <Breadcrumb
                 separator={theme === 'light' ? <span className={styles.theme_light}>/</span> :
                   <span className={styles.theme_dark}>/</span>}
@@ -96,7 +96,7 @@ const Component = (props) => {
                   style={{ cursor: 'pointer' }}>
                   <HomeOutlined />
                 </Breadcrumb.Item>
-                {BreadcrumbList.map(item => {
+                {curKeyPath.labels.reverse().map(item => {
                   return (
                     <Breadcrumb.Item key={item} className={theme === 'light' ? styles.theme_light : styles.theme_dark}
                     >
