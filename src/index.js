@@ -9,7 +9,9 @@ import store from './store'
 import zhCN from 'antd/lib/locale/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-import 'antd/dist/antd.min.css'
+// import 'antd/dist/antd.min.css'
+import 'antd/dist/antd.variable.min.css'
+
 import './assets/common.less'
 import '@icon-park/react/styles/index.less'
 

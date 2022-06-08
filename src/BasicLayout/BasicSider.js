@@ -96,10 +96,13 @@ const Component = (props) => {
         mode="inline"
         items={genSiderMenu(routes)}
         selectedKeys={curKeyPath.paths}
-        openKeys={expandKeyPath?.length > 0 ? expandKeyPath : curKeyPath.paths}
+        // openKeys={['/components/richtexteditor', '/nestedroute']}
+        openKeys={expandKeyPath.length > 0 ? expandKeyPath : curKeyPath.paths}
         // TODO：ANTD-MENU 4.20 疑似bug：opOpenChange的值与展开收起的submenu不匹配
         onOpenChange={(e) => {
+
           console.log(e, '◀◀◀展开')
+          console.log(expandKeyPath, '◀◀◀expandKeyPath')
           dispatch({ type: 'global/setState', payload: { expandKeyPath: e } })
         }}
       />

@@ -29,7 +29,7 @@ const Component = (props) => {
   }
 
   return (
-    <Layout style={{ padding: '5px 15px' }}>
+    <Layout style={{ padding: '0 5px' }}>
       <div className={styles.tags}>
         {tags.map(item => {
           return (
