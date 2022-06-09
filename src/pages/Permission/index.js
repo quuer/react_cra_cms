@@ -23,18 +23,7 @@ const Component = () => {
       theme: mergedNextColor
     })
   }
-  const onRouterPush = () => {
-    // navigate('/echart?name=test&age=333')
-    ConfigProvider.config({
-      theme: {
-        primaryColor: '#CCC',
-        errorColor: '#FF4D4F',
-        warningColor: '#FAAD14',
-        layoutHeaderBackground: '#52C41A',
-        infoColor: '#1890FF'
-      }
-    })
-  }
+
   return (<div>
     <SketchPicker
       presetColors={['#1890FF', '#25B864', '#FF6F00']}
@@ -46,7 +35,6 @@ const Component = () => {
         })
       }}
     />
-    <Button onClick={onRouterPush}>跳转</Button>
   </div>)
 }
 

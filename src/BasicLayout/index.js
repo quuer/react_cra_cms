@@ -7,7 +7,6 @@ import { Route, Routes } from 'react-router'
 import Login from '../pages/Login'
 import { connect } from 'react-redux'
 import RouterGuard from './routerGuard'
-import NotFound from '../pages/NotFound'
 import styles from './index.less'
 
 const Component = (props) => {

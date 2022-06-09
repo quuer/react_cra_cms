@@ -74,7 +74,9 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
-    "start": "set PORT=8000&node scripts/start.js",
+    "start": "concurrently \"npm run serve\" \"npm run dev\" ",
+    "dev": "set PORT=8000&node scripts/start.js",
+    "serve": "nodemon server/main.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
@@ -151,6 +153,11 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^7.2.1",
+    "koa": "^2.13.4",
+    "koa-body": "^5.0.0",
+    "koa-router": "^10.1.1",
+    "koa-static": "^5.0.0",
     "webpackbar": "^5.0.2"
   }
 }

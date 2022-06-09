@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, {  useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
 import { Layout, Menu } from 'antd'
 import { routes } from '../config/router'
-import session from '../utils/session'
-import styles from './index.less'
 import { connect } from 'react-redux'
 
 const { Sider } = Layout
@@ -12,7 +10,6 @@ const Component = (props) => {
   const { dispatch, collapsed, theme, curKeyPath, expandKeyPath } = props
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  // const [path, setPath] = useState([]) // 保证能展开任意嵌套菜单
   const genSiderMenu = routes => {
     return (routes.filter(route => route.isMenu === undefined).map(route => {
       if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单，生成时排除没有isMenu的对象
@@ -41,10 +38,6 @@ const Component = (props) => {
         tagLabel: e.domEvent.target.innerText
       }
     })
-    // dispatch({
-    //   type: 'global/setState',
-    //   payload: { currentTabKey: [e.domEvent.target.innerText, e.key] }
-    // })
     navigate(e.key)
   }
 
@@ -96,7 +89,6 @@ const Component = (props) => {
         mode="inline"
         items={genSiderMenu(routes)}
         selectedKeys={curKeyPath.paths}
-        // openKeys={['/components/richtexteditor', '/nestedroute']}
         openKeys={expandKeyPath.length > 0 ? expandKeyPath : curKeyPath.paths}
         // TODO：ANTD-MENU 4.20 疑似bug：opOpenChange的值与展开收起的submenu不匹配
         onOpenChange={(e) => {

@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Avatar, Breadcrumb, Dropdown, Layout, Menu, Space } from 'antd'
 import { connect } from 'react-redux'
 
 import {
   CloseSquareOutlined,
-  DownOutlined, GithubOutlined, HomeOutlined,
+  GithubOutlined, HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  SmileOutlined, StarFilled, StarOutlined,
   UserAddOutlined
 } from '@ant-design/icons'
-import { routes } from '../config/router'
 import { useLocation, useNavigate } from 'react-router'
 import styles from './index.less'
 import AVATAR from '../assets/image/avatar1.gif'
-import { Brightness, DarkMode, IntermediateMode, Moon } from '@icon-park/react'
+import { IntermediateMode } from '@icon-park/react'
 import classnames from 'classnames'
 import session from '../utils/session'
 
