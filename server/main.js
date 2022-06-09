@@ -10,9 +10,7 @@ app.use(koaBody({
     multipart: true // 支持文件上传
   })
 )
-app.use((ctx) => {
-  ctx.body = 'test'
-})
+
 // 静态文件显示
 app.use(koaStatic(path.resolve(__dirname, '../public/upload')))
 app.use(router.routes()).use(router.allowedMethods())

@@ -1,11 +1,11 @@
 import { notification } from 'antd'
 import React from 'react'
 
-export default (errMsg, actionMsg = '操作提示', duration = 3000) => {
+const ErrorNotice = (errTitle = '操作提示', errMsg, duration = 3) => {
   notification.open({
-    description: <span style={{ color: '#EE4646' }}>{errMsg}</span>,
-    message: <span style={{ color: '#3F3F3F' }}>{actionMsg}</span>,
+    message: <span style={{ color: '#3F3F3F' }}>{errTitle}</span>,
+    description: <span style={{ color: 'rgba(247,51,51,0.69)' }}>{errMsg}</span>,
     duration
   })
 }
-
+export default ErrorNotice

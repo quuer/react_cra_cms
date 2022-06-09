@@ -1,4 +1,7 @@
 import session from './session'
+import ErrorNotice from './error'
+import { notification } from 'antd'
+import React from 'react'
 
 const request = (url, options) => {
   const { method, body } = options
@@ -21,7 +24,7 @@ const request = (url, options) => {
       newOptions = {
         headers,
         method,
-        body: body.data ?? JSON.stringify(body)
+        body: body ? JSON.stringify(body.data) : null
       }
     }
   }
@@ -30,14 +33,14 @@ const request = (url, options) => {
     newOptions = {
       ...options,
       headers,
-      body: body.data ?? JSON.stringify(body)
+      body: body ? JSON.stringify(body.data) : null
     }
   }
   return fetch(url, newOptions).
     then(res => res.json()).
-    then(res => res.data).
+    then(res => res).
     catch(err => {
-      console.log(err, '◀◀◀err')
+      ErrorNotice('网络请求错误', err.message)
     })
 }
 
