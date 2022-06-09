@@ -17,7 +17,7 @@ const request = (url, options) => {
   if (method === 'POST') {
     // 参数为FormData格式
     if (body?.data instanceof FormData) {
-      Object.assign(headers, { ['Content-type']: 'multilpart/formdata' })
+      Object.assign(headers, { ['Content-type']: 'multilpart/form-data' })
       newOptions = { ...options, headers }
     }
     else {

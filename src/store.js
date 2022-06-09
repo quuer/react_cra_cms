@@ -10,7 +10,7 @@ const persistConfig = {
 
 const store = init({
   // 开发模式下暂关闭plugins，避免数据异常
-  // plugins: [persistPlugin(persistConfig)],
+  plugins: [persistPlugin(persistConfig)],
   models
 })
 

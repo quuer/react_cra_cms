@@ -7,12 +7,13 @@ class UploadController {
     console.log('请求上传')
     const file = ctx.request.files.file
     const basename = path.basename(file.filepath)
+    const ext = file.mimetype.split('/')[1]
     // 读取文件流
     const fileReader = fs.createReadStream(file.filepath)
-    const filePath = path.join(__dirname, '../public/upload')
+    const filePath = path.join(__dirname, '../public/upload/images')
 
     // 组装成绝对路径
-    const fileResource = filePath + `/${basename}.png`
+    const fileResource = filePath + `/${basename}.${ext}`
 
     // 使用 createWriteStream 写入数据，然后使用管道流pipe拼接
     const writeStream = fs.createWriteStream(fileResource)
@@ -27,7 +28,7 @@ class UploadController {
         else {
           fileReader.pipe(writeStream)
           ctx.body = {
-            url: `${ctx.origin}/public/upload/${basename}.png`,
+            url: `${ctx.origin}/upload/images/${basename}.${ext}`,
             code: 0,
             message: '上传成功'
           }
@@ -37,7 +38,7 @@ class UploadController {
     else {
       fileReader.pipe(writeStream)
       ctx.body = {
-        url: `${ctx.origin}/public/upload/${basename}.png`,
+        url: `${ctx.origin}/upload/images/${basename}.${ext}`,
         code: 0,
         message: '上传成功'
       }
