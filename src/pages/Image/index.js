@@ -2,6 +2,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Modal, Upload, message } from 'antd'
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import styles from './index.less'
 
 const Component = (props) => {
   const { dispatch, fileList } = props
@@ -34,6 +35,19 @@ const Component = (props) => {
     }
   }
 
+  const beforeUpload = (file) => {
+    return new Promise((resolve, reject) => {
+        if (['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
+          resolve()
+        }
+        else {
+          message.error('仅支持上传jpg/png格式的文件')
+          reject()
+        }
+      }
+    )
+  }
+
   const uploadButton = (<div>
     <PlusOutlined />
     <div
@@ -51,6 +65,7 @@ const Component = (props) => {
       fileList={fileList}
       onChange={handleChange}
       onPreview={handlePreview}
+      beforeUpload={beforeUpload}
     >
       {fileList.length >= 8 ? null : uploadButton}
     </Upload>

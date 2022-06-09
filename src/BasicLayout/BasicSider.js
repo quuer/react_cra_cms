@@ -1,8 +1,9 @@
-import React, {  useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
-import { Layout, Menu } from 'antd'
+import { Affix, Layout, Menu } from 'antd'
 import { routes } from '../config/router'
 import { connect } from 'react-redux'
+import styles from './index.less'
 
 const { Sider } = Layout
 
@@ -14,17 +15,12 @@ const Component = (props) => {
     return (routes.filter(route => route.isMenu === undefined).map(route => {
       if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单，生成时排除没有isMenu的对象
         return {
-          label: route.name,
-          key: route.path,
-          icon: route.icon,
-          children: genSiderMenu(route.children)
+          label: route.name, key: route.path, icon: route.icon, children: genSiderMenu(route.children)
         }
       }
       else { // 2. 无子路由
         return {
-          label: route.name,
-          key: route.path,
-          icon: route.icon
+          label: route.name, key: route.path, icon: route.icon
         }
       }
     }))
@@ -32,10 +28,8 @@ const Component = (props) => {
 
   const onClick = (e) => {
     dispatch({
-      type: 'global/renderNavTags',
-      payload: {
-        tagPath: e.key,
-        tagLabel: e.domEvent.target.innerText
+      type: 'global/renderNavTags', payload: {
+        tagPath: e.key, tagLabel: e.domEvent.target.innerText
       }
     })
     navigate(e.key)
@@ -48,6 +42,7 @@ const Component = (props) => {
 *   2.2 取消左侧菜单高亮
 * */
   useEffect(() => {
+
     const temPaths = []
     const temLabels = []
     let curKeyPath = {}
@@ -59,8 +54,7 @@ const Component = (props) => {
       temPaths.unshift(matchRoute.path)
       temLabels.unshift(matchRoute.name)
       curKeyPath = {
-        labels: temLabels,
-        paths: temPaths
+        labels: temLabels, paths: temPaths
       }
       if (matchRoute?.children) {
         genKeyPath(matchRoute.children)
@@ -71,16 +65,16 @@ const Component = (props) => {
     dispatch({ type: 'global/setState', payload: { curKeyPath } })
     dispatch({
       type: 'global/renderNavTags', payload: {
-        tagPath: temPaths[0],
-        tagLabel: temLabels[0]
+        tagPath: temPaths[0], tagLabel: temLabels[0]
       }
     })
   }, [pathname])
 
-  return (
+  return (<Affix offsetTop={0}>
     <Sider
       trigger={null}
       collapsible
+      className={styles.sider}
       collapsed={collapsed}>
       <Menu
         theme={theme}
@@ -92,14 +86,11 @@ const Component = (props) => {
         openKeys={expandKeyPath.length > 0 ? expandKeyPath : curKeyPath.paths}
         // TODO：ANTD-MENU 4.20 疑似bug：opOpenChange的值与展开收起的submenu不匹配
         onOpenChange={(e) => {
-
-          console.log(e, '◀◀◀展开')
-          console.log(expandKeyPath, '◀◀◀expandKeyPath')
           dispatch({ type: 'global/setState', payload: { expandKeyPath: e } })
         }}
       />
     </Sider>
-  )
+  </Affix>)
 }
 
 const mapState = ({ global }) => global

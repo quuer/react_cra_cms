@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Breadcrumb, Dropdown, Layout, Menu, Space } from 'antd'
+import { Affix, Avatar, Breadcrumb, Dropdown, Layout, Menu, Space } from 'antd'
 import { connect } from 'react-redux'
 
 import {
@@ -51,7 +51,7 @@ const Component = (props) => {
   )
 
   return (
-    <>
+    <Affix offsetTop={0}>
       <Header className={classnames(theme === 'light' ? styles.theme_light : styles.theme_dark, styles.header)}>
         <div className={styles.header_left}>
           <div className={styles.collapse_icon} onClick={() => {
@@ -107,7 +107,7 @@ const Component = (props) => {
           </div>
         </div>
       </Header>
-    </>
+    </Affix>
   )
 }
 const mapState = ({ global }) => global

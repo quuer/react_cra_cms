@@ -120,10 +120,59 @@ export const routes = [
     isMenu: false
   },
   {
-    path: '/personal',
+    path: '/personpage',
     name: '个人页面',
     component: Personal,
     isMenu: false
+  },
+  {
+    path: '/personal1',
+    name: '个人页面1',
+    component: Personal,
+    icon: <LineChartOutlined />
+
+  },
+  {
+    path: '/personal2',
+    name: '个人页面2',
+    component: Personal
+
+  },
+  {
+    path: '/personal3',
+    name: '个人页面3',
+    component: Personal
+
+  },
+  {
+    path: '/personal4',
+    name: '个人页面4',
+    component: Personal
+
+  },
+  {
+    path: '/personal5',
+    name: '个人页面5',
+    component: Personal
+
+  },
+  {
+    path: '/personal6',
+    name: '个人页面6',
+    component: Personal
+
+  },
+  {
+    path: '/personal7',
+    name: '个人页面7',
+    component: Personal
+
+  },
+  {
+    path: '/personal8',
+    name: '个人页面8',
+    component: Personal
+
   }
 ]
 

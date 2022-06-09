@@ -29,14 +29,14 @@ const Component = (props) => {
 
   return (
     <Layout className={styles.layout}>
-      <Affix offsetTop={65}>
-        <div className={styles.tags}>
-          {tags.map(item => {
-            return (
-              <Tag
-                color={item[0] === curKeyPath?.paths?.[0] ? '#108EE9' : null}
-                onClose={() => {
-                  if (tags.length > 1) {
+      <div className={styles.tags}>
+        {tags.map(item => {
+          return (
+            <Tag
+              color={item[0] === curKeyPath?.paths?.[0] ? '#108EE9' : null}
+              onClose={() => {
+                if (tags.length > 1) {
+                  if (item[0] === curKeyPath?.paths?.[0]) { //  若删除当前高亮项，则删除后高亮最后一项
                     dispatch({
                       type: 'global/removeNavTag', payload: {
                         item,
@@ -48,23 +48,25 @@ const Component = (props) => {
                     })
                   }
                   else {
-                    navigate('/dashboard')
+                    dispatch({ type: 'global/removeNavTag', payload: { item } })
                   }
-                }}
-                style={{ cursor: 'pointer' }}
-                closable={item[0] !== '/dashboard'} // 首页 不能有删除功能
-                key={item[1]}
-                onClick={() => {
-                  navigate(item[0])
-                  const temExpandKeyPath = [...expandKeyPath, ...curKeyPath.paths]
-                  // console.log([...new Set(temExpandKeyPath)], '◀◀◀[...new Set(temExpandKeyPath)]')
-                  dispatch({ type: 'global/setState', payload: { expandKeyPath: [...new Set(temExpandKeyPath)] } })
-                }}
-              ><span style={{ padding: 4 }}>{item[1]}</span></Tag>
-            )
-          })}
-        </div>
-      </Affix>
+                }
+                else {
+                  navigate('/dashboard')
+                }
+              }}
+              style={{ cursor: 'pointer' }}
+              closable={item[0] !== '/dashboard'} // 首页 不能有删除功能
+              key={item[1]}
+              onClick={() => {
+                navigate(item[0])
+                const temExpandKeyPath = [...expandKeyPath, ...curKeyPath.paths]
+                dispatch({ type: 'global/setState', payload: { expandKeyPath: [...new Set(temExpandKeyPath)] } })
+              }}
+            ><span style={{ padding: 4 }}>{item[1]}</span></Tag>
+          )
+        })}
+      </div>
       <div className={styles.content}>
         <Routes>
           {genLayout(routes)}
