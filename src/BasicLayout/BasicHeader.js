@@ -1,25 +1,24 @@
 import React from 'react'
-import { Affix, Avatar, Breadcrumb, Dropdown, Layout, Menu, Space } from 'antd'
+import { Affix, Avatar, Breadcrumb, Dropdown, Layout, Menu } from 'antd'
 import { connect } from 'react-redux'
 
 import {
   CloseSquareOutlined,
-  GithubOutlined, HomeOutlined,
+  GithubOutlined,
+  HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserAddOutlined
 } from '@ant-design/icons'
 import { useLocation, useNavigate } from 'react-router'
+import session from '../utils/session'
 import styles from './index.less'
 import AVATAR from '../assets/image/avatar1.gif'
-import { IntermediateMode } from '@icon-park/react'
-import classnames from 'classnames'
-import session from '../utils/session'
 
 const { Header } = Layout
 
 const Component = (props) => {
-  const { dispatch, collapsed, theme, curKeyPath } = props
+  const { dispatch, collapsed, curKeyPath } = props
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const menu = (
@@ -29,12 +28,11 @@ const Component = (props) => {
           key: 'personal',
           label: (<a onClick={() => {
             navigate('/personal')
-          }}>个人中心</a>),
-          icon: <UserAddOutlined />
+          }}>个人中心</a>), icon: <UserAddOutlined />
         },
         {
           key: 'github',
-          label: (<a target="_blank" href="https://github.com/quuer/react_cra_cms">项目地址</a>),
+          label: (<a target="_blank" href="https://github.com/quuer/react_cra_cms" rel="noreferrer">项目地址</a>),
           icon: <GithubOutlined />
         },
         {
@@ -51,8 +49,9 @@ const Component = (props) => {
   )
 
   return (
+
     <Affix offsetTop={0}>
-      <Header className={classnames(theme === 'light' ? styles.theme_light : styles.theme_dark, styles.header)}>
+      <Header className={styles.header}>
         <div className={styles.header_left}>
           <div className={styles.collapse_icon} onClick={() => {
             dispatch({ type: 'global/setState', payload: { collapsed: !collapsed } })
@@ -63,21 +62,20 @@ const Component = (props) => {
             {/*面包屑导航条：404页面不需要显示面包屑*/}
             {pathname !== '/404' && curKeyPath?.labels?.length &&
               <Breadcrumb
-                separator={theme === 'light' ? <span className={styles.theme_light}>/</span> :
-                  <span className={styles.theme_dark}>/</span>}
+                separator={<span className={styles.light}>/</span>}
                 style={{ margin: '16px 0' }}
               >
                 <Breadcrumb.Item
                   onClick={() => {
                     navigate('/dashboard')
                   }}
-                  className={theme === 'light' ? styles.theme_light : styles.theme_dark}
+                  className={styles.light}
                   style={{ cursor: 'pointer' }}>
                   <HomeOutlined />
                 </Breadcrumb.Item>
                 {[...curKeyPath.labels].reverse().map(item => {
                   return (
-                    <Breadcrumb.Item key={item} className={theme === 'light' ? styles.theme_light : styles.theme_dark}
+                    <Breadcrumb.Item key={item} className={styles.light}
                     >
                       {item}
                     </Breadcrumb.Item>
@@ -88,13 +86,6 @@ const Component = (props) => {
           </div>
         </div>
         <div className={styles.header_right}>
-          <div className={styles.theme} onClick={() => {
-            dispatch({ type: 'global/setState', payload: { theme: theme === 'light' ? 'dark' : 'light' } })
-          }}>
-            {theme === 'light' ?
-              <IntermediateMode theme="filled" size="30" fill="#001529" /> :
-              <IntermediateMode theme="outline" size="30" fill="#ffffff" />}
-          </div>
           <div className={styles.personal}>
             <Dropdown
               arrow={{ pointAtCenter: true }}

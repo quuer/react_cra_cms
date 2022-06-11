@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import BasicSider from './BasicSider'
+import { Suspense } from 'react'
 import BasicContent from './BasicContent'
 import BasicHeader from './BasicHeader'
 import { Layout } from 'antd'
@@ -7,6 +8,7 @@ import { Route, Routes } from 'react-router'
 import Login from '../pages/Login'
 import { connect } from 'react-redux'
 import RouterGuard from './routerGuard'
+import LazyLoading from '../components/LazyLoading'
 import styles from './index.less'
 
 const Component = (props) => {
@@ -18,7 +20,9 @@ const Component = (props) => {
         <BasicSider />
         <Layout>
           <BasicHeader />
-          <BasicContent />
+          <Suspense fallback={<LazyLoading />}>
+            <BasicContent />
+          </Suspense>
         </Layout>
       </Layout>
     )

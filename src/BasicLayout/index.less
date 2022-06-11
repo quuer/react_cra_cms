@@ -1,5 +1,6 @@
 .layout {
-  //height: 100vh;
+  min-width: 1100px;
+  
   .header {
     display: flex;
     justify-content: space-between;
@@ -22,6 +23,7 @@
     
     .collapse_icon {
       cursor: pointer;
+      font-size: 20px;
     }
     
     .breadcrumb {
@@ -30,23 +32,12 @@
   }
   
   .sider {
-    //position: fixed;
-    //top: 0;
-    //left: 0;
     height: calc(100vh - 1px);
-    //z-index: 99;
-    //background-color: #BFA;
-    overflow-y: scroll;
+    overflow-y: auto;
     
     &::-webkit-scrollbar {
-      display: none; /* Chrome Safari */
+      display: none;
     }
-    
-    //:global {
-    //  .ant-layout-sider {
-    //    height: 100%;
-    //  }
-    //}
   }
   
   .layout {
@@ -65,19 +56,51 @@
     }
   }
   
-  .theme_dark {
-    background-color: #001529FF;
-    color: #FFF !important;
-  }
-  
-  .theme_light {
-    background-color: #FFF !important;
-    color: #001529FF;
+  .light {
+    color: #000 !important;
   }
 }
 
+//修改全局主题色
 :global {
   .ant-layout-header {
     padding: 0 20px !important;
   }
+  
+  .ant-layout-header {
+    background-color: #FFF !important;
+  }
+  
+  .ant-layout-sider {
+    z-index: 9999 !important;
+  }
+  
+  .ant-layout-sider, .ant-menu.ant-menu-dark {
+    background-color: #304156 !important;
+  }
+  
+  .ant-menu-dark .ant-menu-inline.ant-menu-sub,
+  .ant-menu-submenu-selected {
+    background: #1F2D3D !important;
+  }
+  
+  .ant-menu-submenu-title,
+  .ant-menu-item,
+  .ant-menu-dark .ant-menu-item:hover,
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    border-radius: 5px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 95% !important;
+  }
+  
+  .ant-menu-dark .ant-menu-item:hover {
+    background-color: #FFFFFF11 !important;
+  }
+  
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: var(--ant-primary-color) !important;
+  }
 }
+
+

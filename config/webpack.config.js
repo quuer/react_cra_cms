@@ -76,6 +76,8 @@ const lessRegex = /\.less$/
 const lessModuleRegex = /\.module\.less$/
 // 新增进度条显示
 const WebpackBar = require('webpackbar')
+// 分析打包
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -782,7 +784,8 @@ module.exports = function (webpackEnv) {
           }
         }
       }),
-      new WebpackBar()
+      new WebpackBar(),
+      isEnvProduction && new BundleAnalyzerPlugin()
     ].filter(Boolean),
     // Turn off performance processing because we utilize
     // our own hints via the FileSizeReporter

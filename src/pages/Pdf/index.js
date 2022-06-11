@@ -50,8 +50,9 @@ const Component = () => {
                 loading=""
                 file={testPdf}
                 onLoadSuccess={onLoadSuccess}>
-                <Page pageNumber={pageNumber}
-                      width={700}
+                <Page
+                  pageNumber={pageNumber}
+                  width={700}
                 />
               </Document>
             </div>
@@ -77,13 +78,13 @@ const Component = () => {
               file={testPdf}
               onLoadSuccess={onAllLoadSuccess}>
               {
-                new Array(sNumPages + 1).fill('').map((item, index) => {
+                new Array(sNumPages).fill('').map((item, index) => {
                   return <div key={index}>
                     <Page
                       noData={null}
                       width={700}
                       key={index}
-                      pageNumber={index}
+                      pageNumber={index + 1}
                     />
                   </div>
                 })

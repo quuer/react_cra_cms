@@ -42,7 +42,6 @@ const Component = (props) => {
 *   2.2 取消左侧菜单高亮
 * */
   useEffect(() => {
-
     const temPaths = []
     const temLabels = []
     let curKeyPath = {}
@@ -69,28 +68,30 @@ const Component = (props) => {
       }
     })
   }, [pathname])
-
-  return (<Affix offsetTop={0}>
-    <Sider
-      trigger={null}
-      collapsible
-      className={styles.sider}
-      collapsed={collapsed}>
-      <Menu
-        theme={theme}
-        style={{ height: '100%' }}
-        onClick={onClick}
-        mode="inline"
-        items={genSiderMenu(routes)}
-        selectedKeys={curKeyPath.paths}
-        openKeys={expandKeyPath.length > 0 ? expandKeyPath : curKeyPath.paths}
-        // TODO：ANTD-MENU 4.20 疑似bug：opOpenChange的值与展开收起的submenu不匹配
-        onOpenChange={(e) => {
-          dispatch({ type: 'global/setState', payload: { expandKeyPath: e } })
-        }}
-      />
-    </Sider>
-  </Affix>)
+  const defaultProps = collapsed ? {} : { openKeys: expandKeyPath.length > 0 ? expandKeyPath : curKeyPath.paths }
+  return (
+    <Affix offsetTop={0}>
+      <Sider
+        trigger={null}
+        collapsible
+        className={styles.sider}
+        collapsed={collapsed}>
+        <Menu
+          theme="dark"
+          style={{ height: '100%' }}
+          onClick={onClick}
+          mode="inline"
+          items={genSiderMenu(routes)}
+          defaultOpenKeys={curKeyPath.paths}
+          selectedKeys={curKeyPath.paths}
+          // TODO：ANTD-MENU 4.20 疑似bug：opOpenChange的值与展开收起的submenu不匹配
+          onOpenChange={(e) => {
+            dispatch({ type: 'global/setState', payload: { expandKeyPath: e } })
+          }}
+          {...defaultProps}
+        />
+      </Sider>
+    </Affix>)
 }
 
 const mapState = ({ global }) => global

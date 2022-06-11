@@ -1,5 +1,5 @@
 import React from 'react'
-import { Affix, Layout, Tag } from 'antd'
+import { Layout, Tag } from 'antd'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 import { routes } from '../config/router'
 import styles from './index.less'
@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 const Component = (props) => {
   const { dispatch, tags, curKeyPath, expandKeyPath } = props
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const genLayout = routes => {
     return (
       routes.map(route => {
@@ -30,7 +31,7 @@ const Component = (props) => {
   return (
     <Layout className={styles.layout}>
       <div className={styles.tags}>
-        {tags.map(item => {
+        {pathname !== '/404' && tags.map((item, index) => {
           return (
             <Tag
               color={item[0] === curKeyPath?.paths?.[0] ? '#108EE9' : null}
@@ -57,7 +58,7 @@ const Component = (props) => {
               }}
               style={{ cursor: 'pointer' }}
               closable={item[0] !== '/dashboard'} // 首页 不能有删除功能
-              key={item[1]}
+              key={item[1] + index}
               onClick={() => {
                 navigate(item[0])
                 const temExpandKeyPath = [...expandKeyPath, ...curKeyPath.paths]
@@ -70,7 +71,7 @@ const Component = (props) => {
       <div className={styles.content}>
         <Routes>
           {genLayout(routes)}
-          <Route path="*" element={<Navigate to="/404" />} />
+          <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
       </div>
     </Layout>

@@ -4,8 +4,9 @@ import styles from './index.less'
 
 const Component = () => {
   return (
-    <div className={styles.notfound}>
-    </div>
+    <div
+      className={styles.notfound}
+      style={{ backgroundImage: `url(${NotFoundPng})` }} />
   )
 }
 
