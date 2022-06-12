@@ -15,3 +15,8 @@ export function generateHeaders(columns) {
     }
   })
 }
+
+// 获取数据类型
+export function getDataType(data) {
+  return (Object.prototype.toString.call(data).match(/\s(\w+)\]/))[1]
+}

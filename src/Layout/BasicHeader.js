@@ -73,9 +73,9 @@ const Component = (props) => {
                   style={{ cursor: 'pointer' }}>
                   <HomeOutlined />
                 </Breadcrumb.Item>
-                {[...curKeyPath.labels].reverse().map(item => {
+                {[...curKeyPath.labels].reverse().map((item, index) => {
                   return (
-                    <Breadcrumb.Item key={item} className={styles.light}
+                    <Breadcrumb.Item key={item + index} className={styles.light}
                     >
                       {item}
                     </Breadcrumb.Item>

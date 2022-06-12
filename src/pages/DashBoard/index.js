@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import styles from './index.less'
 import ScrollReveal from 'scrollreveal'
+import { useLocation } from 'react-router-dom'
 
-const Component = () => {
+const Component = (props) => {
+  console.log(props, '◀◀◀props')
+
   useEffect(() => {
     ScrollReveal().reveal('.reveal', {
       // 动画的时长

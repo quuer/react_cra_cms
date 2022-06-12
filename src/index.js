@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { ConfigProvider } from 'antd'
-import { HashRouter } from 'react-router-dom'
+import { HashRouter as Router } from 'react-router-dom'
 
-import BasicLayout from './BasicLayout'
+import Layout from './Layout'
 import store from './store'
 import zhCN from 'antd/lib/locale/zh_CN'
 import moment from 'moment'
@@ -12,9 +12,9 @@ import 'moment/locale/zh-cn'
 
 import './assets/css/reset.less'
 import '@icon-park/react/styles/index.less'
-// import 'antd/dist/antd.min.css'
-// 若要修改antd主题，需要引入下方的css
+// 若要动态修改antd主题，需要引入antd.variable.min.css
 import 'antd/dist/antd.variable.min.css'
+// import 'antd/dist/antd.min.css'
 
 moment.locale('zh-cn')
 
@@ -22,13 +22,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
   // <React.StrictMode>
-  <HashRouter>
+  <Router>
     <ConfigProvider locale={zhCN}>
       <Provider store={store}>
-        <BasicLayout />
+        <Layout />
       </Provider>
     </ConfigProvider>
-  </HashRouter>
+  </Router>
   // </React.StrictMode>
 )
 

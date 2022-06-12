@@ -8,22 +8,30 @@ import styles from './index.less'
 const { Sider } = Layout
 
 const Component = (props) => {
-  const { dispatch, collapsed, theme, curKeyPath, expandKeyPath } = props
+  let { dispatch, collapsed, curKeyPath, expandKeyPath } = props
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const genSiderMenu = routes => {
-    return (routes.filter(route => route.isMenu === undefined).map(route => {
-      if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单，生成时排除没有isMenu的对象
-        return {
-          label: route.name, key: route.path, icon: route.icon, children: genSiderMenu(route.children)
-        }
-      }
-      else { // 2. 无子路由
-        return {
-          label: route.name, key: route.path, icon: route.icon
-        }
-      }
-    }))
+    return (
+      routes.
+        filter(route => route.meta?.isMenu === undefined).
+        map(route => {
+          if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单，生成时排除meta没有isMenu的对象
+            return {
+              label: route.meta?.title,
+              key: route.path,
+              icon: route.meta?.icon,
+              children: genSiderMenu(route.children)
+            }
+          }
+          else { // 2. 无子路由
+            return {
+              label: route.meta?.title,
+              key: route.path,
+              icon: route.meta?.icon
+            }
+          }
+        }))
   }
 
   const onClick = (e) => {
@@ -41,26 +49,29 @@ const Component = (props) => {
 *   2.1 显示404
 *   2.2 取消左侧菜单高亮
 * */
+
   useEffect(() => {
+
     const temPaths = []
     const temLabels = []
-    let curKeyPath = {}
     const genKeyPath = (routes) => {
-      const matchRoute = routes.find(route => {
-        return pathname.includes(route.path)
-      })
+      const matchRoute = routes.
+        find(route => {
+          return pathname.includes(route.path)
+        })
       if (!matchRoute) return
+
       temPaths.unshift(matchRoute.path)
-      temLabels.unshift(matchRoute.name)
+      temLabels.unshift(matchRoute.meta?.title)
+
       curKeyPath = {
         labels: temLabels, paths: temPaths
       }
-      if (matchRoute?.children) {
+      if (matchRoute.children) {
         genKeyPath(matchRoute.children)
       }
     }
     genKeyPath(routes)
-    console.log(curKeyPath, '◀◀◀curKeyPath')
     dispatch({ type: 'global/setState', payload: { curKeyPath } })
     dispatch({
       type: 'global/renderNavTags', payload: {
@@ -68,6 +79,7 @@ const Component = (props) => {
       }
     })
   }, [pathname])
+
   const defaultProps = collapsed ? {} : { openKeys: expandKeyPath.length > 0 ? expandKeyPath : curKeyPath.paths }
   return (
     <Affix offsetTop={0}>

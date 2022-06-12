@@ -1,10 +1,15 @@
 import React from 'react'
 import { Layout, Tag } from 'antd'
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
-import { routes } from '../config/router'
+import { Outlet, Route, useLocation, useNavigate } from 'react-router'
 import styles from './index.less'
 import { connect } from 'react-redux'
 
+import { useRoutes } from 'react-router-dom'
+import { routes, transformRoutes } from '../config/router'
+
+function RenderRoutes() {
+  return useRoutes(transformRoutes(routes))
+}
 const Component = (props) => {
   const { dispatch, tags, curKeyPath, expandKeyPath } = props
   const navigate = useNavigate()
@@ -20,7 +25,7 @@ const Component = (props) => {
             <Route
               path={route.path}
               exact={route.exact}
-              element={<route.component />}
+              element={<route.component meta={route.meta} />}
               key={route.path} />
           )
         }
@@ -69,10 +74,12 @@ const Component = (props) => {
         })}
       </div>
       <div className={styles.content}>
-        <Routes>
-          {genLayout(routes)}
-          <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
+        {/*<Outlet />*/}
+        <RenderRoutes />
+        {/*<Routes>*/}
+        {/*  {genLayout(routes)}*/}
+        {/*  <Route path="*" element={<Navigate to="/404" replace />} />*/}
+        {/*</Routes>*/}
       </div>
     </Layout>
   )

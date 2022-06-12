@@ -4,10 +4,9 @@ import { useParams } from 'react-router'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { Button } from 'antd'
 
-const Component = () => {
+const Component = (props) => {
   const [searchParams, setSearchParams] = useSearchParams()
-  console.log(searchParams.has('name'), '◀◀◀location')
-
+  console.log(props, '◀◀◀props')
   return (<div>
     <Button onClick={() => {
       setSearchParams({
