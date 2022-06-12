@@ -74,12 +74,7 @@ const Component = (props) => {
         })}
       </div>
       <div className={styles.content}>
-        {/*<Outlet />*/}
         <RenderRoutes />
-        {/*<Routes>*/}
-        {/*  {genLayout(routes)}*/}
-        {/*  <Route path="*" element={<Navigate to="/404" replace />} />*/}
-        {/*</Routes>*/}
       </div>
     </Layout>
   )

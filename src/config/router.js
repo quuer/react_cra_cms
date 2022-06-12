@@ -26,17 +26,9 @@ export const routes = [
       icon: <DashboardOutlined />
     }
   },
-  // {
-  //   path: '/components',
-  //   redirect: '/components/pdf',
-  //   meta: {
-  //     isMenu: false
-  //   }
-  // },
   {
     path: '/components',
     component: Component,
-    // redirect: '/components/pdf',
     meta: {
       title: '组件',
       icon: <AppstoreAddOutlined />
@@ -64,7 +56,6 @@ export const routes = [
         meta: {
           title: '图片',
           icon: <FileJpgOutlined />
-
         }
       },
       {
@@ -73,7 +64,6 @@ export const routes = [
         meta: {
           title: '富文本编辑器',
           icon: <ProjectOutlined />
-
         }
       }
     ]
@@ -89,7 +79,6 @@ export const routes = [
   {
     path: '/nestedroute',
     component: NestedRoute,
-    // redirect: '/nestedroute/route1/route2/route3',
     meta: {
       title: '嵌套路由',
       icon: <ClusterOutlined />
@@ -99,24 +88,21 @@ export const routes = [
         path: '/nestedroute/route1',
         component: NestedRouteOne,
         meta: {
-          title: '菜单1',
-          icon: <FilePdfOutlined />
+          title: '菜单1'
         },
         children: [
           {
             path: '/nestedroute/route1/route2',
             component: NestedRouteTwo,
             meta: {
-              title: '菜单2',
-              icon: <FilePdfOutlined />
+              title: '菜单2'
             },
             children: [
               {
                 path: '/nestedroute/route1/route2/route3',
                 component: lazy(() => import('../pages/NestedRouteThree')),
                 meta: {
-                  title: '菜单3',
-                  icon: <FilePdfOutlined />
+                  title: '菜单3'
                 }
               }
             ]

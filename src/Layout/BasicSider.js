@@ -54,13 +54,13 @@ const Component = (props) => {
 
     const temPaths = []
     const temLabels = []
+    let curKeyPath = {}
     const genKeyPath = (routes) => {
-      const matchRoute = routes.
-        find(route => {
-          return pathname.includes(route.path)
-        })
+      const matchRoute = routes.find(route => {
+        return pathname.includes(route.path)
+      })
       if (!matchRoute) return
-
+      console.log(matchRoute, '◀◀◀matchRoute')
       temPaths.unshift(matchRoute.path)
       temLabels.unshift(matchRoute.meta?.title)
 
