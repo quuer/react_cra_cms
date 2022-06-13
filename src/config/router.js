@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import React, { lazy } from 'react'
 import {
   AppstoreAddOutlined,
   ClusterOutlined,
@@ -13,7 +13,6 @@ import {
 import Component from '../pages/Components'
 import NotFound from '../pages/NotFound'
 import NestedRoute from '../pages/NestedRoute'
-import { Navigate } from 'react-router'
 import NestedRouteTwo from '../pages/NestedRouteTwo'
 import NestedRouteOne from '../pages/NestedRouteOne'
 
@@ -143,45 +142,6 @@ export const routes = [
       title: '未找到页面',
       isMenu: false
     }
-  }]
-
-export const onRouteBefore = ({ pathname, meta }) => {
-  // 动态修改页面title
-  if (meta.title !== undefined) {
-    document.title = meta.title
   }
-  // 判断未登录跳转登录页
-  // if (meta.needLogin) {
-  //   if (!isLogin) {
-  //     return '/login'
-  //   }
-  // }
-}
+]
 
-/**
- * @description 将自定义路由配置转为react-router v6 版本useRoutes要求的格式
- * @params 自定义配置路由表
- */
-export const transformRoutes = (routes) => {
-  const list = []
-  routes.forEach(route => {
-    const obj = { ...route }
-    if (obj.path === undefined) {
-      return
-    }
-    if (obj.redirect) {
-      obj.element = <Navigate to={obj.redirect} replace={true} />
-    }
-    if (obj.component) {
-      obj.element = <obj.component meta={obj.meta} />
-    }
-    delete obj.redirect
-    delete obj.component
-    delete obj.meta
-    if (obj.children) {
-      obj.children = transformRoutes(obj.children)
-    }
-    list.push(obj)
-  })
-  return list
-}

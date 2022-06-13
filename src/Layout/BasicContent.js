@@ -4,35 +4,13 @@ import { Outlet, Route, useLocation, useNavigate } from 'react-router'
 import styles from './index.less'
 import { connect } from 'react-redux'
 
-import { useRoutes } from 'react-router-dom'
-import { routes, transformRoutes } from '../config/router'
+import { routes } from '../config/router'
+import RouterGuard from './RouterGuard'
 
-function RenderRoutes() {
-  return useRoutes(transformRoutes(routes))
-}
 const Component = (props) => {
   const { dispatch, tags, curKeyPath, expandKeyPath } = props
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const genLayout = routes => {
-    return (
-      routes.map(route => {
-        if (route.children?.length > 0) {
-          return genLayout(route.children)
-        }
-        else {
-          return (
-            <Route
-              path={route.path}
-              exact={route.exact}
-              element={<route.component meta={route.meta} />}
-              key={route.path} />
-          )
-        }
-      })
-    )
-  }
-
   return (
     <Layout className={styles.layout}>
       <div className={styles.tags}>
@@ -74,7 +52,7 @@ const Component = (props) => {
         })}
       </div>
       <div className={styles.content}>
-        <RenderRoutes />
+        <RouterGuard routes={routes} />
       </div>
     </Layout>
   )
