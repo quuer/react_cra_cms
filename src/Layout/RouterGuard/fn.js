@@ -14,9 +14,9 @@ export const onRouteBefore = ({ pathname, meta }) => {
     document.title = meta.title
   }
   // 判断未登录跳转登录页
-  if (1 > 0) {
-    return '/components/pdf'
-  }
+  // if (1 > 0) {
+  //   return '/components/pdf'
+  // }
 }
 
 /**
@@ -25,22 +25,23 @@ export const onRouteBefore = ({ pathname, meta }) => {
  */
 export const transToUseRoutes = (routes) => {
   const routeList = []
-  routes.forEach(_route => {
-    const route = { ..._route }
-    if (route.path === undefined) return
-    if (route.redirect) {
-      route.element = <Navigate to={route.redirect} replace={true} />
-    }
-    if (route.component) {
-      route.element = <Guard element={<route.component />} meta={route.meta||{}} />
-    }
-    delete route.redirect
-    delete route.component
-    delete route.meta
-    if (route.children) {
-      route.children = transToUseRoutes(route.children)
-    }
-    routeList.push(route)
-  })
+  routes.
+    forEach(_route => {
+      const route = { ..._route }
+      if (route.path === undefined) return
+      if (route.redirect) {
+        route.element = <Navigate to={route.redirect} replace={true} />
+      }
+      if (route.component) {
+        route.element = <Guard element={<route.component />} meta={route.meta || {}} />
+      }
+      delete route.redirect
+      delete route.component
+      delete route.meta
+      if (route.children) {
+        route.children = transToUseRoutes(route.children)
+      }
+      routeList.push(route)
+    })
   return routeList
 }
