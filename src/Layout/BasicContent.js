@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Layout, Tag } from 'antd'
-import { Outlet, Route, useLocation, useNavigate } from 'react-router'
-import styles from './index.less'
-import { connect } from 'react-redux'
-
+import { useLocation, useNavigate } from 'react-router'
 import { routes } from '../config/router'
 import RouterGuard from './RouterGuard'
+import { connect } from 'react-redux'
+import styles from './index.less'
+import './transition.css'
+
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 const Component = (props) => {
   const { dispatch, tags, curKeyPath, expandKeyPath } = props
+  const location = useLocation()
   const navigate = useNavigate()
-  const { pathname } = useLocation()
+  const { pathname } = location
+  console.log(location, '◀◀◀location')
   return (
     <Layout className={styles.layout}>
       <div className={styles.tags}>
@@ -58,7 +62,15 @@ const Component = (props) => {
   )
 }
 
-const mapState = ({ global }) => global
-const mapDispatch = dispatch => ({ dispatch })
+const mapState = (
+  {
+    global
+  }
+) => global
+const mapDispatch = dispatch => (
+  {
+    dispatch
+  }
+)
 
 export default connect(mapState, mapDispatch)(Component)
