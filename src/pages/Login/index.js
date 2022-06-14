@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { connect } from 'react-redux'
 import { Button, Form, Input } from 'antd'
 import styles from './index.less'
+import { useSearchParams } from 'react-router-dom'
 
 const { Item } = Form
 
@@ -20,6 +21,7 @@ const Component = (props) => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const { validateFields, setFieldsValue } = form
+  const [searchParams] = useSearchParams()
   useEffect(() => {
     document.title = '登录'
   }, [])
@@ -31,7 +33,12 @@ const Component = (props) => {
           payload: {
             ...values,
             callback: () => {
-              navigate('/dashboard')
+              if (searchParams.get('redirect')) {
+                navigate(`/${searchParams.get('redirect')}`)
+              }
+              else {
+                navigate('/dashboard')
+              }
             }
           }
         }

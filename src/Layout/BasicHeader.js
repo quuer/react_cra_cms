@@ -39,8 +39,7 @@ const Component = (props) => {
           danger: true,
           label: (<a onClick={() => {
             session.clear()
-
-            navigate('/login', { replace: true })
+            navigate(`/login?redirect=${pathname.split('/')[1]}`, { replace: true })
           }}>退出</a>),
           icon: <CloseSquareOutlined />
         }
