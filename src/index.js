@@ -16,9 +16,6 @@ import '@icon-park/react/styles/index.less'
 import 'antd/dist/antd.variable.min.css'
 import { Route, Routes } from 'react-router'
 import Login from './pages/Login'
-import RouterGuard from './Layout/RouterGuard'
-import { routes } from './config/router'
-import NotFound from './pages/NotFound'
 // import 'antd/dist/antd.min.css'
 moment.locale('zh-cn')
 
