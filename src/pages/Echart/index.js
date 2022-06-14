@@ -1,12 +1,9 @@
 import React from 'react'
-import styles from './index.less'
-import { useParams } from 'react-router'
-import { useLocation, useSearchParams } from 'react-router-dom'
 import { Button } from 'antd'
+import { useSearchParams } from 'react-router-dom'
 
-const Component = (props) => {
-  const [searchParams, setSearchParams] = useSearchParams()
-  console.log(props, '◀◀◀props')
+const Component = () => {
+  const [, setSearchParams] = useSearchParams()
   return (<div>
     <Button onClick={() => {
       setSearchParams({

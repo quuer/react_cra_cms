@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router'
 import { Affix, Layout, Menu } from 'antd'
 import { routes } from '../config/router'
-import { connect } from 'react-redux'
 import styles from './index.less'
 
 const { Sider } = Layout
@@ -13,25 +13,23 @@ const Component = (props) => {
   const { pathname } = useLocation()
   const genSiderMenu = routes => {
     return (
-      routes.
-        filter(route => route.meta?.isMenu === undefined).
-        map(route => {
-          if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单，生成时排除meta没有isMenu的对象
-            return {
-              label: route.meta?.title,
-              key: route.path,
-              icon: route.meta?.icon,
-              children: genSiderMenu(route.children)
-            }
+      routes.filter(route => route.meta?.isMenu === undefined).map(route => {
+        if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单，生成时排除meta没有isMenu的对象
+          return {
+            label: route.meta?.title,
+            key: route.path,
+            icon: route.meta?.icon,
+            children: genSiderMenu(route.children)
           }
-          else { // 2. 无子路由
-            return {
-              label: route.meta?.title,
-              key: route.path,
-              icon: route.meta?.icon
-            }
+        }
+        else { // 2. 无子路由
+          return {
+            label: route.meta?.title,
+            key: route.path,
+            icon: route.meta?.icon
           }
-        }))
+        }
+      }))
   }
 
   const onClick = (e) => {
@@ -60,7 +58,6 @@ const Component = (props) => {
         return pathname.includes(route.path)
       })
       if (!matchRoute) return
-      console.log(matchRoute, '◀◀◀matchRoute')
       temPaths.unshift(matchRoute.path)
       temLabels.unshift(matchRoute.meta?.title)
 

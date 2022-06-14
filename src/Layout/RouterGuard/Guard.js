@@ -8,7 +8,6 @@ const Component = (props) => {
   const location = useLocation()
   const navigate = useNavigate()
   const { pathname } = location
-  console.log(element, meta, pathname, '◀◀◀props')
   const pathRes = onRouteBefore({ pathname, meta })
   if (getDataType(pathRes) === 'Promise') {
     pathRes.then(res => {

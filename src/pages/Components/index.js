@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { Outlet } from 'react-router'
 import styles from './index.less'
-import { Outlet, useNavigate } from 'react-router'
-import { useLocation } from 'react-router-dom'
 
 const Component = () => {
 

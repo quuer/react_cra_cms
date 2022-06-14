@@ -2,7 +2,6 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Modal, Upload, message } from 'antd'
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import styles from './index.less'
 
 const Component = (props) => {
   const { dispatch, fileList } = props

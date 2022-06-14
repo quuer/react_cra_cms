@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
-import styles from './index.less'
 import ScrollReveal from 'scrollreveal'
-import { useLocation } from 'react-router-dom'
+import styles from './index.less'
 
-const Component = (props) => {
-  console.log(props, '◀◀◀props')
+const Component = () => {
 
   useEffect(() => {
     ScrollReveal().reveal('.reveal', {

@@ -17,6 +17,7 @@ import NestedRouteTwo from '../pages/NestedRouteTwo'
 import NestedRouteOne from '../pages/NestedRouteOne'
 
 export const routes = [
+
   {
     path: '/dashboard',
     component: lazy(() => import('../pages/DashBoard')),
@@ -132,6 +133,13 @@ export const routes = [
     meta: {
       title: '个人页面',
       icon: <LineChartOutlined />,
+      isMenu: false
+    }
+  },
+  {
+    path: '/',
+    redirect: '/dashboard',
+    meta: {
       isMenu: false
     }
   },

@@ -3,7 +3,7 @@ const path = require('path')
 class UploadController {
 
   // 上传文件
-  async uploadFile(ctx, next) {
+  async uploadFile(ctx) {
     console.log('请求上传')
     const file = ctx.request.files.file
     const basename = path.basename(file.filepath)
@@ -20,7 +20,6 @@ class UploadController {
 
     // 判断 /upload/upload 文件夹是否存在，如果不存在的话就创建一个
     if (!fs.existsSync(filePath)) {
-      console.log(fs.existsSync(filePath), '◀◀◀fs.existsSync(filePath)')
       fs.mkdir(filePath, (err) => {
         if (err) {
           throw new Error(err)

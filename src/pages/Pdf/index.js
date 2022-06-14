@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { Button, message, Pagination, Space } from 'antd'
+import { Button, message,  Space } from 'antd'
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack5'
 import testPdf from './test.pdf'
 import styles from './index.less'
-import { DownloadOutlined } from '@ant-design/icons'
 
 const Component = () => {
   const [numPages, setNumPages] = useState(0) // 总页数：分页下载

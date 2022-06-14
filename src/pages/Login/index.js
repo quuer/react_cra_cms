@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { connect } from 'react-redux'
-import { Button, Checkbox, Form, Input, Select } from 'antd'
+import { Button, Form, Input } from 'antd'
 import styles from './index.less'
-import session from '../../utils/session'
 
 const { Item } = Form
 
@@ -21,9 +20,9 @@ const Component = (props) => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const { validateFields, setFieldsValue } = form
-  // const onFinish = (values) => {
-  //   console.log('Success:', values)
-  // }
+  useEffect(() => {
+    document.title = '登录'
+  }, [])
   const onSubmit = async () => {
     try {
       const values = await validateFields()

@@ -14,22 +14,27 @@ import './assets/css/reset.less'
 import '@icon-park/react/styles/index.less'
 // 若要动态修改antd主题，需要引入antd.variable.min.css
 import 'antd/dist/antd.variable.min.css'
+import { Route, Routes } from 'react-router'
+import Login from './pages/Login'
+import RouterGuard from './Layout/RouterGuard'
+import { routes } from './config/router'
+import NotFound from './pages/NotFound'
 // import 'antd/dist/antd.min.css'
-
 moment.locale('zh-cn')
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
-  // <React.StrictMode>
   <Router>
     <ConfigProvider locale={zhCN}>
       <Provider store={store}>
-        <Layout />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Layout />} />
+        </Routes>
       </Provider>
     </ConfigProvider>
   </Router>
-  // </React.StrictMode>
 )
 
 

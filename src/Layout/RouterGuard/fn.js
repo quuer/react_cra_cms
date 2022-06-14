@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navigate } from 'react-router'
 import Guard from './Guard'
+import session from '../../utils/session'
 
 /**
  * @description 路由拦截
@@ -9,14 +10,18 @@ import Guard from './Guard'
  * @meta 当前路由下的meta配置
  */
 export const onRouteBefore = ({ pathname, meta }) => {
+  console.log(pathname, '◀◀◀pathname')
   // 动态修改页面title
   if (meta?.title !== undefined) {
     document.title = meta.title
   }
   // 判断未登录跳转登录页
-  // if (1 > 0) {
-  //   return '/components/pdf'
-  // }
+  if (!session.get('session')?.token) {
+    return '/login'
+  }
+  else {
+    return pathname
+  }
 }
 
 /**
@@ -25,23 +30,22 @@ export const onRouteBefore = ({ pathname, meta }) => {
  */
 export const transToUseRoutes = (routes) => {
   const routeList = []
-  routes.
-    forEach(_route => {
-      const route = { ..._route }
-      if (route.path === undefined) return
-      if (route.redirect) {
-        route.element = <Navigate to={route.redirect} replace={true} />
-      }
-      if (route.component) {
-        route.element = <Guard element={<route.component />} meta={route.meta || {}} />
-      }
-      delete route.redirect
-      delete route.component
-      delete route.meta
-      if (route.children) {
-        route.children = transToUseRoutes(route.children)
-      }
-      routeList.push(route)
-    })
+  routes.forEach(_route => {
+    const route = { ..._route }
+    if (route.path === undefined) return
+    if (route.redirect) {
+      route.element = <Navigate to={route.redirect} replace={true} />
+    }
+    if (route.component) {
+      route.element = <Guard element={<route.component />} meta={route.meta || {}} />
+    }
+    delete route.redirect
+    delete route.component
+    delete route.meta
+    if (route.children) {
+      route.children = transToUseRoutes(route.children)
+    }
+    routeList.push(route)
+  })
   return routeList
 }

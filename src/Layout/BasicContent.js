@@ -1,24 +1,21 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 import { Layout, Tag } from 'antd'
-import { useLocation, useNavigate } from 'react-router'
+import {  useLocation, useNavigate } from 'react-router'
 import { routes } from '../config/router'
 import RouterGuard from './RouterGuard'
-import { connect } from 'react-redux'
 import styles from './index.less'
-import './transition.css'
 
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 const Component = (props) => {
   const { dispatch, tags, curKeyPath, expandKeyPath } = props
   const location = useLocation()
   const navigate = useNavigate()
   const { pathname } = location
-  console.log(location, '◀◀◀location')
   return (
     <Layout className={styles.layout}>
       <div className={styles.tags}>
-        {pathname !== '/404' && tags.map((item, index) => {
+        {!['/404'].includes(pathname) && tags.filter(item => Boolean(item[1])).map((item, index) => {
           return (
             <Tag
               color={item[0] === curKeyPath?.paths?.[0] ? '#108EE9' : null}
@@ -29,7 +26,6 @@ const Component = (props) => {
                       type: 'global/removeNavTag', payload: {
                         item,
                         callback: (newTags) => {
-                          console.log(newTags, '◀◀◀newTags')
                           navigate(newTags.at(-1)[0])
                         }
                       }

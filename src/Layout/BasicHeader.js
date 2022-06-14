@@ -1,7 +1,7 @@
 import React from 'react'
-import { Affix, Avatar, Breadcrumb, Dropdown, Layout, Menu } from 'antd'
 import { connect } from 'react-redux'
-
+import { useLocation, useNavigate } from 'react-router'
+import { Affix, Avatar, Breadcrumb, Dropdown, Layout, Menu } from 'antd'
 import {
   CloseSquareOutlined,
   GithubOutlined,
@@ -10,7 +10,6 @@ import {
   MenuUnfoldOutlined,
   UserAddOutlined
 } from '@ant-design/icons'
-import { useLocation, useNavigate } from 'react-router'
 import session from '../utils/session'
 import styles from './index.less'
 import AVATAR from '../assets/image/avatar1.gif'
@@ -40,7 +39,8 @@ const Component = (props) => {
           danger: true,
           label: (<a onClick={() => {
             session.clear()
-            navigate('/login')
+
+            navigate('/login', { replace: true })
           }}>退出</a>),
           icon: <CloseSquareOutlined />
         }
