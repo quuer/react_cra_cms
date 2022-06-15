@@ -104,7 +104,6 @@ export const routes = [
   {
     path: '/nestedroute',
     component: NestedRoute,
-    red: '/nestedroute/route1/route1-1',
     meta: {
       title: '嵌套路由',
       icon: <ClusterOutlined />
