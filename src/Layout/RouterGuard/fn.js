@@ -10,7 +10,6 @@ import session from '../../utils/session'
  * @meta 当前路由下的meta配置
  */
 export const onRouteBefore = ({ pathname, meta }) => {
-  console.log(pathname, '◀◀◀pathname')
   // 动态修改页面title
   if (meta?.title !== undefined) {
     document.title = meta.title
@@ -34,10 +33,10 @@ export const transToUseRoutes = (routes) => {
     const route = { ..._route }
     if (route.path === undefined) return
     if (route.redirect) {
-      route.element = <Navigate to={route.redirect} replace={true} />
+      route.element = <Navigate to={route.redirect} replace />
     }
     if (route.component) {
-      route.element = <Guard element={<route.component />} meta={route.meta || {}} />
+      route.element = <Guard element={<route.component meta={route.meta} />} />
     }
     delete route.redirect
     delete route.component

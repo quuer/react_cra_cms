@@ -16,6 +16,7 @@ import '@icon-park/react/styles/index.less'
 import 'antd/dist/antd.variable.min.css'
 import { Route, Routes } from 'react-router'
 import Login from './pages/Login'
+import NotFound from './pages/NotFound'
 // import 'antd/dist/antd.min.css'
 moment.locale('zh-cn')
 
@@ -28,6 +29,7 @@ root.render(
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Layout />} />
+          <Route path="/404" element={<NotFound />} />
         </Routes>
       </Provider>
     </ConfigProvider>

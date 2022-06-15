@@ -13,11 +13,11 @@ const Component = (props) => {
   const { pathname } = useLocation()
   const genSiderMenu = routes => {
     return (
-      routes.filter(route => route.meta?.isMenu === undefined).map(route => {
-        if (route.children?.length > 0) { // 1. 若有子路由，递归生成子菜单，生成时排除meta没有isMenu的对象
+      routes.filter(route => !route.siderHidden).map(route => { // 1. 若有子路由，递归生成子菜单。生成时排除siderHidden为true即需要隐藏的对象
+        if (!route.siderChildrenHidden && route.children?.length > 0) {
           return {
             label: route.meta?.title,
-            key: route.path,
+            key: route.index || route.path,
             icon: route.meta?.icon,
             children: genSiderMenu(route.children)
           }
@@ -25,7 +25,7 @@ const Component = (props) => {
         else { // 2. 无子路由
           return {
             label: route.meta?.title,
-            key: route.path,
+            key: route.index || route.path,
             icon: route.meta?.icon
           }
         }
@@ -33,12 +33,20 @@ const Component = (props) => {
   }
 
   const onClick = (e) => {
-    dispatch({
-      type: 'global/renderNavTags', payload: {
-        tagPath: e.key, tagLabel: e.domEvent.target.innerText
+    console.log(e, '◀◀◀e')
+    let redirectPath = e.key
+    const findRedirect = (routes) => {
+      const res = routes.find(item => e.key.includes(item.path.split('/:').join('')))
+      if (!res) return
+      if (res.index) {
+        redirectPath = res.index
       }
-    })
-    navigate(e.key)
+      if (res.children) {
+        findRedirect(res.children)
+      }
+    }
+    findRedirect(routes)
+    navigate(redirectPath)
   }
 
   /* 动态关联 路由URL 与 左侧导航菜单
@@ -48,31 +56,56 @@ const Component = (props) => {
 *   2.2 取消左侧菜单高亮
 * */
 
+  // 生成curKeyPath:用于展开和高亮sider菜单。当不需要渲染子项目时停止递归。
   useEffect(() => {
-
+    if (pathname === '/404') return
     const temPaths = []
     const temLabels = []
     let curKeyPath = {}
     const genKeyPath = (routes) => {
       const matchRoute = routes.find(route => {
-        return pathname.includes(route.path)
+        return pathname.includes(route.path.split('/:')[0])
       })
       if (!matchRoute) return
       temPaths.unshift(matchRoute.path)
       temLabels.unshift(matchRoute.meta?.title)
-
+      if (matchRoute.index) {
+        temPaths.unshift(matchRoute.index)
+      }
       curKeyPath = {
         labels: temLabels, paths: temPaths
       }
-      if (matchRoute.children) {
+      if (!matchRoute.siderChildrenHidden && matchRoute.children) {
         genKeyPath(matchRoute.children)
       }
     }
     genKeyPath(routes)
     dispatch({ type: 'global/setState', payload: { curKeyPath } })
+  }, [pathname])
+
+  // 生成navTag:用于展示tags导航菜单。一直往里匹配到最适路由。
+  useEffect(() => {
+    if (pathname === '/404') return
+    let temTagLabel = ''
+    const genNavTag = (routes) => {
+      const matchRoute = routes.find(route => {
+        return pathname.includes(route.path.split('/:')[0])
+      })
+      if (!matchRoute) return
+      if (matchRoute.path.includes('/:')) {
+        temTagLabel = `${matchRoute.meta?.title}-${pathname.slice(-4, -1)}`
+      }
+      else {
+        temTagLabel = matchRoute.meta?.title
+      }
+      if (matchRoute.children?.length) {
+        genNavTag(matchRoute.children)
+      }
+    }
+    genNavTag(routes)
     dispatch({
       type: 'global/renderNavTags', payload: {
-        tagPath: temPaths[0], tagLabel: temLabels[0]
+        tagPath: pathname, tagLabel: temTagLabel
       }
     })
   }, [pathname])

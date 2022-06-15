@@ -4,6 +4,7 @@ const global = {
     theme: 'light', // 默认light主题
     collapsed: false, // 默认展开左侧导航菜单
     curKeyPath: {},// 保存当前亮高的左侧导航菜单 {labels:[],paths:[]}
+    breadcrumbKeyPath: {}, // 保存面包屑菜单{labels:[],paths:[]}
     tags: [['/dashboard', '首页']], // 结构为[[tagPath,tagName],[同左边]]，用Map或对象数组[{tagName,tagPath},{}]均可
     expandKeyPath: [],// 左侧展开菜单path
     fileList: [ // 保存上传的图片

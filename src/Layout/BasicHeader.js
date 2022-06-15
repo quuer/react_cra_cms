@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router'
 import { Affix, Avatar, Breadcrumb, Dropdown, Layout, Menu } from 'antd'
@@ -13,11 +13,12 @@ import {
 import session from '../utils/session'
 import styles from './index.less'
 import AVATAR from '../assets/image/avatar1.gif'
+import { routes } from '../config/router'
 
 const { Header } = Layout
 
 const Component = (props) => {
-  const { dispatch, collapsed, curKeyPath } = props
+  const { dispatch, collapsed, breadcrumbKeyPath } = props
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const menu = (
@@ -47,6 +48,31 @@ const Component = (props) => {
     />
   )
 
+  // 根据url生成面包屑菜单
+  useEffect(() => {
+
+
+    const temPaths = []
+    const temLabels = []
+    let breadcrumbKeyPath = {}
+    const genKeyPath = (routes) => {
+      const matchRoute = routes.find(route => {
+        return pathname.includes(route.path.split('/:')[0])
+      })
+      if (!matchRoute) return
+      temPaths.unshift(matchRoute.path)
+      temLabels.unshift(matchRoute.meta?.title)
+      breadcrumbKeyPath = {
+        labels: temLabels, paths: temPaths
+      }
+      if (matchRoute.children) {
+        genKeyPath(matchRoute.children)
+      }
+    }
+    genKeyPath(routes)
+    dispatch({ type: 'global/setState', payload: { breadcrumbKeyPath } })
+  }, [pathname])
+
   return (
 
     <Affix offsetTop={0}>
@@ -59,7 +85,7 @@ const Component = (props) => {
           </div>
           <div className={styles.breadcrumb}>
             {/*面包屑导航条：404页面不需要显示面包屑*/}
-            {pathname !== '/404' && curKeyPath?.labels?.length &&
+            {pathname !== '/404' && breadcrumbKeyPath.labels?.length &&
               <Breadcrumb
                 separator={<span className={styles.light}>/</span>}
                 style={{ margin: '16px 0' }}
@@ -72,10 +98,10 @@ const Component = (props) => {
                   style={{ cursor: 'pointer' }}>
                   <HomeOutlined />
                 </Breadcrumb.Item>
-                {[...curKeyPath.labels].reverse().map((item, index) => {
+                {[...breadcrumbKeyPath.labels].reverse().map((item, index) => {
                   return (
-                    <Breadcrumb.Item key={item + index} className={styles.light}
-                    >
+                    <Breadcrumb.Item
+                      key={item + index} className={styles.light}>
                       {item}
                     </Breadcrumb.Item>
                   )

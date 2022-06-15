@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, message,  Space } from 'antd'
+import { Button, message, Space } from 'antd'
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack5'
 import testPdf from './test.pdf'
 import styles from './index.less'
